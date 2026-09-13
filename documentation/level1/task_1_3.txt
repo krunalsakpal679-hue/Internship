@@ -1,0 +1,28 @@
+TASK: Task 1.3: Number of Stops per Train
+LEVEL: Level 1 — Basic Data Review
+IMPLEMENTATION FILE: src/level1/task_1_3_stops_per_train.py
+OUTPUT FILE: outputs/tables/task_1_3_stops_per_train.csv
+EVIDENCE SCREENSHOT: screenshots/level1/task_1_3.png
+DOCUMENTATION: documentation/level1/task_1_3.txt
+
+1. REQUIREMENT:
+Calculate the true number of station stops for every Train_No using high-performance grouping, sort descending by stop count, and cross-check that the sum equals total dataset rows and that values reconcile with Task 1.2.
+
+2. IMPLEMENTATION:
+- Implemented src/level1/task_1_3_stops_per_train.py using groupby('Train_No').size().
+- Sorted descending by Stop_Count with Train_No ascending as secondary tie-breaker.
+- Reconciled against Task 1.2 Total_Stations table (100% agreement across all 11,113 trains).
+- Asserted sum(Stop_Count) == 186,074 and min(Stop_Count) >= 2.
+- Exported table and generated visualization with top 10 trains and frequency distribution.
+
+3. OUTPUT:
+- outputs/tables/task_1_3_stops_per_train.csv (11,113 rows, columns: Train_No, Stop_Count).
+- Sum of Stop_Count: 186,074 (exact match to raw dataset records).
+- Maximum stops: 118 stops (Train 53041).
+- Minimum stops: 2 stops (38 suburban/short-distance trains).
+- Mean stops: 16.74 stops; Median stops: 14.0 stops.
+
+4. INTERPRETATION:
+- DATA FACT: Every train in the network has at least 2 stops (an origin and a destination).
+- DATA FACT: Passenger trains (50000-series numbers) dominate the highest stop counts, led by Train 53041 (118 stops) and Train 13007 (Udyan Abha Toofan Express, 112 stops).
+- METHODOLOGY: Using groupby().size() executes in ~0.15s, avoiding inefficient row-by-row iteration over 186,074 rows.

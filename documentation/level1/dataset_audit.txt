@@ -1,0 +1,28 @@
+TASK: Dataset Audit Report
+LEVEL: Level 0 / Level 1 Foundation
+FILE: src/level0/dataset_audit.py
+OUTPUT: outputs/reports/dataset_audit_report.md
+EVIDENCE: screenshots/level1/dataset_audit.png
+
+1. REQUIREMENT:
+Perform an exhaustive, evidence-based audit of data/raw/Dataset1.csv to confirm structure, completeness, cardinality, time formats, distance monotonicity, fare class properties, and edge cases prior to any business logic.
+
+2. IMPLEMENTATION:
+- Developed src/level0/dataset_audit.py using Pandas, NumPy, Matplotlib, and Hashlib.
+- Computed SHA-256 hash (8353639af562e88ceb8feb26454221d50fc97b38dc752e3fe6a7a0235f9ecd57) and cross-verified line counts against raw file bytes.
+- Tested time string patterns with regular expressions and mapped 00:00:00 occurrences against station topology (origin vs intermediate vs terminus).
+- Verified monotonicity of cumulative distance for all 11,113 trains.
+- Discovered exact mathematical formulation governing fare classes (1A, 2A, 3A, SL).
+- Exported detailed markdown audit report and four-panel visual summary dashboard.
+
+3. OUTPUT:
+- outputs/reports/dataset_audit_report.md (Full 10-section comprehensive audit report).
+- screenshots/level1/dataset_audit.png (High-resolution visual inspection dashboard).
+- Total records: 186,074 rows, 12 columns, 0 nulls, 0 exact duplicates.
+- Unique trains: 11,113. Unique station codes: 8,147.
+
+4. INTERPRETATION:
+- DATA FACT: data/raw/Dataset1.csv is pristine and complete with zero missing data values.
+- DATA FACT: Station stops are strictly monotonic in distance, confirming the raw CSV is pre-sorted in journey sequence.
+- METHODOLOGY: '00:00:00' timestamps at origins (1,951) and terminus stations (1,955) represent unrecorded arrivals/departures, whereas 48 intermediate 00:00:00 arrival times represent genuine midnight operations.
+- ASSUMPTION: Columns 1A, 2A, 3A, and SL represent distance-scaled tariff index rates (Base 100 + 5/4/3/2 * Distance).

@@ -1,0 +1,14 @@
+metric,value
+total_records,186074
+total_columns,12
+raw_file_lines,186075
+memory_usage_mb,66.79
+unique_trains,11113
+unique_station_codes,8147
+unique_station_names,8099
+unique_route_numbers,1
+total_missing_values,0
+exact_duplicate_rows,0
+min_distance_km,0
+max_distance_km,4260
+column_schema,SN; Train_No; Station_Code; 1A; 2A; 3A; SL; Station_Name; Route_Number; Arrival_time; Departure_Time; Distance

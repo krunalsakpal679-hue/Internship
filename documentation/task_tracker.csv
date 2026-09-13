@@ -1,8 +1,8 @@
 Task ID,Level,Status,Impl. File,Output File,Evidence,Docs,Git Ckpt
-1.1,1,NOT STARTED,src/level1/task_1_1_overview.py,outputs/tables/task_1_1_dataset_overview.csv,screenshots/level1/task_1_1.png,documentation/level1/task_1_1.txt,Checkpoint 1
-1.2,1,NOT STARTED,src/level1/task_1_2_start_end.py,outputs/tables/task_1_2_start_end_stations.csv,screenshots/level1/task_1_2.png,documentation/level1/task_1_2.txt,Checkpoint 1
-1.3,1,NOT STARTED,src/level1/task_1_3_stops_per_train.py,outputs/tables/task_1_3_stops_per_train.csv,screenshots/level1/task_1_3.png,documentation/level1/task_1_3.txt,Checkpoint 1
-1.4,1,NOT STARTED,src/level1/task_1_4_max_min_stops.py,outputs/tables/task_1_4_max_min_stops.csv,screenshots/level1/task_1_4.png,documentation/level1/task_1_4.txt,Checkpoint 1
+1.1,1,COMPLETED,src/level1/task_1_1_overview.py,outputs/tables/task_1_1_dataset_overview.csv,screenshots/level1/task_1_1.png,documentation/level1/task_1_1.txt,Checkpoint 1
+1.2,1,COMPLETED,src/level1/task_1_2_start_end.py,outputs/tables/task_1_2_start_end_stations.csv,screenshots/level1/task_1_2.png,documentation/level1/task_1_2.txt,Checkpoint 1
+1.3,1,COMPLETED,src/level1/task_1_3_stops_per_train.py,outputs/tables/task_1_3_stops_per_train.csv,screenshots/level1/task_1_3.png,documentation/level1/task_1_3.txt,Checkpoint 1
+1.4,1,COMPLETED,src/level1/task_1_4_max_min_stops.py,outputs/tables/task_1_4_max_min_stops.csv,screenshots/level1/task_1_4.png,documentation/level1/task_1_4.txt,Checkpoint 1
 2.1,2,NOT STARTED,src/level2/task_2_1_standardize_times.py,outputs/tables/task_2_1_standardized_times.csv,screenshots/level2/task_2_1.png,documentation/level2/task_2_1.txt,Checkpoint 2
 2.2,2,NOT STARTED,src/level2/task_2_2_journey_duration.py,outputs/tables/task_2_2_journey_duration.csv,screenshots/level2/task_2_2.png,documentation/level2/task_2_2.txt,Checkpoint 2
 2.3,2,NOT STARTED,src/level2/task_2_3_route_classification.py,outputs/tables/task_2_3_route_classification.csv,screenshots/level2/task_2_3.png,documentation/level2/task_2_3.txt,Checkpoint 2

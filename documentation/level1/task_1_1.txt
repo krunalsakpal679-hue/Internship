@@ -1,0 +1,32 @@
+TASK: Task 1.1: Dataset Overview (Total Records & Attributes)
+LEVEL: Level 1 — Basic Data Review
+IMPLEMENTATION FILE: src/level1/task_1_1_overview.py
+OUTPUT FILE: outputs/tables/task_1_1_dataset_overview.csv
+EVIDENCE SCREENSHOT: screenshots/level1/task_1_1.png
+DOCUMENTATION: documentation/level1/task_1_1.txt
+
+1. REQUIREMENT:
+Load data/raw/Dataset1.csv using pandas, preserve string identifiers (Train_No, Station_Code), and report complete shape, columns, memory footprint, head/tail previews, uniqueness counts, and descriptive statistics.
+
+2. IMPLEMENTATION:
+- Implemented src/level1/task_1_1_overview.py using pandas with explicit dtypes.
+- Verified line counts against physical raw line count (186,075 lines = 1 header + 186,074 records).
+- Evaluated memory usage via df.memory_usage(deep=True).
+- Asserted zero empty rows and complete header column fidelity.
+- Saved tabular output to outputs/tables/task_1_1_dataset_overview.csv.
+- Rendered stylized visual evidence table to screenshots/level1/task_1_1.png.
+
+3. OUTPUT:
+- outputs/tables/task_1_1_dataset_overview.csv (13 key metrics captured).
+- Total Records: 186,074 station stops.
+- Total Columns: 12 columns (SN, Train_No, Station_Code, 1A, 2A, 3A, SL, Station_Name, Route_Number, Arrival_time, Departure_Time, Distance).
+- Unique Trains: 11,113.
+- Unique Stations: 8,147 codes, 8,099 distinct names.
+- Memory Footprint: 66.79 MB.
+- Missing Values: 0. Exact Duplicates: 0.
+
+4. INTERPRETATION:
+- DATA FACT: The dataset is 100% complete with 186,074 station stops and 0 missing values.
+- DATA FACT: There are 11,113 unique trains operating across 8,147 distinct stations in India.
+- DATA FACT: All records have Route_Number == '1', indicating single canonical routes per train service in this dataset.
+- METHODOLOGY: Preserving Train_No and Station_Code as strings avoids numeric truncation or leading zero stripping on railway codes.

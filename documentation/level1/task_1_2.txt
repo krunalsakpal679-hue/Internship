@@ -1,0 +1,28 @@
+TASK: Task 1.2: Starting and Ending Stations per Train
+LEVEL: Level 1 — Basic Data Review
+IMPLEMENTATION FILE: src/level1/task_1_2_start_end.py
+OUTPUT FILE: outputs/tables/task_1_2_start_end_stations.csv
+EVIDENCE SCREENSHOT: screenshots/level1/task_1_2.png
+DOCUMENTATION: documentation/level1/task_1_2.txt
+
+1. REQUIREMENT:
+For every unique Train_No (11,113 trains), determine the origin (start) and terminus (end) stations using true sequence ordering (Distance ascending, SN ascending). Output table with Train_No, Start_Station_Code, Start_Station_Name, End_Station_Code, End_Station_Name, and Total_Stations.
+
+2. IMPLEMENTATION:
+- Developed src/level1/task_1_2_start_end.py using Pandas.
+- Converted Distance and SN to numeric fields to avoid alphanumeric sorting anomalies.
+- Verified distance monotonicity across all trains prior to grouping (0 non-monotonic trains found).
+- Sorted by ['Train_No', 'Distance_num', 'SN_num'] to guarantee physical forward order even for suburban stops sharing Distance = 0.
+- Grouped by Train_No and aggregated first/last stations and stop counts.
+- Validated with spot-checks against Train 107 (SWV -> MAO, 4 stops), Train 12626 (NDLS -> TVC, 42 stops), and Train 12951 (BCT -> NDLS, 8 stops).
+
+3. OUTPUT:
+- outputs/tables/task_1_2_start_end_stations.csv (11,113 train terminal records).
+- Total trains: 11,113 (100% matched to raw dataset unique Train_No count).
+- Null start stations: 0. Null end stations: 0.
+- Minimum stops per train: 2. Maximum stops per train: 118 (Train 53041).
+
+4. INTERPRETATION:
+- DATA FACT: Every train in the dataset has a valid, non-null start and end station.
+- DATA FACT: Trains exhibit a wide operational spectrum, from short 2-stop passenger shuttles to 118-stop long-distance passenger services.
+- METHODOLOGY: Secondary sorting on SN resolves ordering for the 11 short suburban/branch routes where multiple consecutive stops share Distance = 0 km due to rounding.

@@ -1,0 +1,22 @@
+Task ID,Level,Status,Impl. File,Output File,Evidence,Docs,Git Ckpt
+1.1,1,NOT STARTED,src/level1/task_1_1_overview.py,outputs/tables/task_1_1_dataset_overview.csv,screenshots/level1/task_1_1.png,documentation/level1/task_1_1.txt,Checkpoint 1
+1.2,1,NOT STARTED,src/level1/task_1_2_start_end.py,outputs/tables/task_1_2_start_end_stations.csv,screenshots/level1/task_1_2.png,documentation/level1/task_1_2.txt,Checkpoint 1
+1.3,1,NOT STARTED,src/level1/task_1_3_stops_per_train.py,outputs/tables/task_1_3_stops_per_train.csv,screenshots/level1/task_1_3.png,documentation/level1/task_1_3.txt,Checkpoint 1
+1.4,1,NOT STARTED,src/level1/task_1_4_max_min_stops.py,outputs/tables/task_1_4_max_min_stops.csv,screenshots/level1/task_1_4.png,documentation/level1/task_1_4.txt,Checkpoint 1
+2.1,2,NOT STARTED,src/level2/task_2_1_standardize_times.py,outputs/tables/task_2_1_standardized_times.csv,screenshots/level2/task_2_1.png,documentation/level2/task_2_1.txt,Checkpoint 2
+2.2,2,NOT STARTED,src/level2/task_2_2_journey_duration.py,outputs/tables/task_2_2_journey_duration.csv,screenshots/level2/task_2_2.png,documentation/level2/task_2_2.txt,Checkpoint 2
+2.3,2,NOT STARTED,src/level2/task_2_3_route_classification.py,outputs/tables/task_2_3_route_classification.csv,screenshots/level2/task_2_3.png,documentation/level2/task_2_3.txt,Checkpoint 2
+2.4,2,NOT STARTED,src/level2/task_2_4_station_frequency.py,outputs/tables/task_2_4_station_frequency.csv,screenshots/level2/task_2_4.png,documentation/level2/task_2_4.txt,Checkpoint 2
+3.1,3,NOT STARTED,src/level3/task_3_1_missing_values.py,outputs/tables/task_3_1_missing_value_report.csv,screenshots/level3/task_3_1.png,documentation/level3/task_3_1.txt,Checkpoint 2
+3.2,3,NOT STARTED,src/level3/task_3_2_duplicates.py,outputs/tables/task_3_2_duplicates_report.csv,screenshots/level3/task_3_2.png,documentation/level3/task_3_2.txt,Checkpoint 2
+3.3,3,NOT STARTED,src/level3/task_3_3_station_order.py,outputs/tables/task_3_3_order_validation.csv,screenshots/level3/task_3_3.png,documentation/level3/task_3_3.txt,Checkpoint 2
+3.4,3,NOT STARTED,src/level3/task_3_4_save_verified.py,data/processed/dataset_verified.csv,screenshots/level3/task_3_4.png,documentation/level3/task_3_4.txt,Checkpoint 2
+4.1,4,NOT STARTED,src/level4/task_4_1_compare_duration.py,outputs/tables/task_4_1_duration_comparison.csv,screenshots/level4/task_4_1.png,documentation/level4/task_4_1.txt,Checkpoint 3
+4.2,4,NOT STARTED,src/level4/task_4_2_traffic_stations.py,outputs/tables/task_4_2_high_traffic_stations.csv,screenshots/level4/task_4_2.png,documentation/level4/task_4_2.txt,Checkpoint 3
+4.3,4,NOT STARTED,src/level4/task_4_3_visualizations.py,outputs/charts/task_4_3_duration_by_route.png,screenshots/level4/task_4_3.png,documentation/level4/task_4_3.txt,Checkpoint 3
+4.4,4,NOT STARTED,src/level4/task_4_4_summary_insights.py,documentation/level4/task_4_4_summary.md,screenshots/level4/task_4_4.png,documentation/level4/task_4_4.txt,Checkpoint 3
+5.1,5,NOT STARTED,src/level5/task_5_1_pivot_tables.py,outputs/tables/task_5_1_station_pivot.csv,screenshots/level5/task_5_1.png,documentation/level5/task_5_1.txt,Checkpoint 4
+5.2,5,NOT STARTED,src/level5/task_5_2_crosstab.py,outputs/tables/task_5_2_route_crosstab.csv,screenshots/level5/task_5_2.png,documentation/level5/task_5_2.txt,Checkpoint 4
+5.3,5,NOT STARTED,src/level5/task_5_3_comparative_charts.py,outputs/charts/task_5_3_station_pivot_heatmap.png,screenshots/level5/task_5_3.png,documentation/level5/task_5_3.txt,Checkpoint 4
+5.4,5,NOT STARTED,src/level5/task_5_4_advanced_insights.py,documentation/level5/task_5_4_advanced_insights.md,screenshots/level5/task_5_4.png,documentation/level5/task_5_4.txt,Checkpoint 4
+6.1,6,NOT STARTED,app/train_enquiry.py,outputs/reports/enquiry_test_sample.txt,screenshots/level6/task_6_1.png,documentation/level6/task_6_1.txt,Checkpoint 5

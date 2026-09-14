@@ -1,0 +1,64 @@
+================================================================================
+TASK 4.3 DOCUMENTATION: BASIC VISUALIZATIONS (DURATION & STATION TRAFFIC)
+================================================================================
+Date / Timestamp: 2026-09-14T16:55:00+05:30
+Task ID: 4.3
+Level: 4 (Basic Analysis and Visualization)
+Phase: Phase 3 Exploratory Data Analysis & Basic Visualization (Checkpoint 3)
+
+1. REQUIREMENT:
+--------------------------------------------------------------------------------
+- Create clear, correctly-labeled charts for journey duration distribution and
+  station traffic using Matplotlib/Seaborn.
+- Bar chart: average duration by Route_Type, with title, axis labels (including units,
+  e.g. minutes/hours), and readable font size.
+- Bar chart: top N high-traffic stations by train count, with title and axis labels.
+- Histogram: overall journey duration distribution.
+- Save each chart as its own PNG at an appropriate figure size (150 dpi).
+- Verify every chart has title, x-label, y-label with units, legend, and non-zero bytes.
+
+2. IMPLEMENTATION:
+--------------------------------------------------------------------------------
+- Script: src/level4/task_4_3_visualizations.py
+- Input Datasets:
+  * outputs/tables/task_4_1_duration_by_route_type.csv
+  * outputs/tables/task_4_2_high_traffic_stations.csv
+  * data/processed/dataset_verified.csv (11,107 computable trains)
+- Visual Specifications:
+  1. Chart 1 (Duration by Route Type): Grouped dual-bar chart comparing Mean and Median
+     duration across Short, Medium, and Long routes. Annotated with minutes and hours values,
+     sample sizes per tier (N=3,860, N=3,518, N=3,729).
+  2. Chart 2 (High-Traffic Stations): Horizontal bar chart displaying Top 15 busiest stations
+     with station code + station name, distinct train counts, network share percentages,
+     and color-coded traffic tiers (Mega Hubs in dark blue, Major Hubs in steel blue).
+  3. Chart 3 (Duration Histogram): 50-bin histogram with kernel density estimate (KDE) curve,
+     vertical reference lines for Median (132 min / 2.2 h), Mean (276.2 min / 4.6 h), and
+     route cutoffs (80 min, 240 min). Dual axis showing minutes (bottom) and hours (top).
+- Evidence: screenshots/level4/task_4_3.png, documentation/level4/task_4_3.txt.
+
+3. OUTPUT ARTIFACTS:
+--------------------------------------------------------------------------------
+- outputs/charts/task_4_3_duration_by_route_type.png (10x6 in, 150 DPI)
+- outputs/charts/task_4_3_duration_by_route.png (mirror filename for tracker compatibility)
+- outputs/charts/task_4_3_high_traffic_stations.png (11x7 in, 150 DPI)
+- outputs/charts/task_4_3_duration_histogram.png (11x6.5 in, 150 DPI)
+- screenshots/level4/task_4_3.png
+- documentation/level4/task_4_3.txt
+
+4. INTERPRETATION & VISUAL FINDINGS:
+--------------------------------------------------------------------------------
+- [DATA FACT & VISUAL INSIGHT] Duration Hierarchy in Chart 1:
+  Mean and median durations expand progressively across route classifications:
+  Short (Mean 49.5m, Med 52.0m) -> Medium (Mean 142.0m, Med 135.0m) -> Long (Mean 637.3m, Med 555.0m).
+  The right-skewness of Long routes is clearly visible in the 82.3-minute gap between mean and median.
+- [DATA FACT & VISUAL INSIGHT] Hub Dominance in Chart 2:
+  CST-Mumbai (CSMT) leads the nation with 1,027 distinct trains (9.24% of network), followed by
+  Kalyan (828), Thane (796), Sealdah (745), and Chennai Beach (738). The visual underscores the
+  massive concentration of traffic in suburban-mainline interface junctions.
+- [DATA FACT & VISUAL INSIGHT] Bimodal Network Profile in Chart 3:
+  The histogram demonstrates a sharp commuter peak centered around 30-75 minutes (representing local
+  EMU/DMU and passenger trains), followed by a dense regional plateau (2-4 hours), and an extensive
+  right-skewed tail representing long-distance express and superfast services operating up to 23.9 hours.
+- [QA VERIFICATION] All PNG files exist on disk, have non-zero file sizes (>50 KB), and visual
+  inspection confirms zero label clipping or overlapping text.
+================================================================================

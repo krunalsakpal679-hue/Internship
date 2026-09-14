@@ -1,0 +1,5 @@
+Route_Type,Total_Trains,Computable_Trains,Excluded_Trains,Mean_Duration_Minutes,Median_Duration_Minutes,Std_Duration_Minutes,Min_Duration_Minutes,Max_Duration_Minutes,Mean_Duration_Hours,Median_Duration_Hours,Sample_Assessment
+Short,3860,3860,0,49.5,52.0,19.55,5.0,80.0,0.82,0.87,"Robust sample size (3,860 trains, 34.8% of network)"
+Medium,3518,3518,0,142.02,135.0,44.13,81.0,240.0,2.37,2.25,"Robust sample size (3,518 trains, 31.7% of network)"
+Long,3735,3729,6,637.34,555.0,323.17,242.0,1435.0,10.62,9.25,"Robust sample size (3,729 trains, 33.6% of network)"
+Overall (All Routes),11113,11107,6,276.16,132.0,321.19,5.0,1435.0,4.6,2.2,"Full network universe (11,107 computable trains)"

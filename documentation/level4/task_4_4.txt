@@ -1,0 +1,51 @@
+================================================================================
+TASK 4.4 DOCUMENTATION: SUMMARIZE KEY OBSERVATIONS (LEVEL 4)
+================================================================================
+Date / Timestamp: 2026-09-14T17:00:00+05:30
+Task ID: 4.4
+Level: 4 (Basic Analysis and Visualization)
+Phase: Phase 3 Exploratory Data Analysis & Basic Visualization (Checkpoint 3)
+
+1. REQUIREMENT:
+--------------------------------------------------------------------------------
+- Write a plain-language summary of Level 4 findings, grounded strictly in the
+  computed numbers from Tasks 4.1-4.3.
+- Write 5-8 bullet observations, each citing the specific number/table it is based on.
+- Explicitly label any interpretive statement as INTERPRETATION vs. DATA FACT.
+- Note any limitations (e.g. sample sizes, excluded trains) from earlier tasks.
+- Ensure every claim is traceable to an output file produced earlier in Level 4.
+
+2. IMPLEMENTATION:
+--------------------------------------------------------------------------------
+- Script: src/level4/task_4_4_summary_insights.py
+- Input Datasets:
+  * outputs/tables/task_4_1_duration_by_route_type.csv
+  * outputs/tables/task_4_2_high_traffic_stations.csv
+  * outputs/charts/task_4_3_duration_by_route_type.png
+  * outputs/charts/task_4_3_high_traffic_stations.png
+  * outputs/charts/task_4_3_duration_histogram.png
+- Methodology:
+  * Extracted verified metrics directly from Task 4.1, 4.2, 4.3 artifacts.
+  * Formulated 7 comprehensive analytical observations categorized by theme.
+  * Labeled every sentence with [DATA FACT], [INTERPRETATION], or [METHODOLOGY].
+  * Compiled executive report to documentation/level4/task_4_4_key_observations.md
+    (and mirror documentation/level4/task_4_4_summary.md).
+  * Generated terminal card evidence screenshot at screenshots/level4/task_4_4.png.
+
+3. OUTPUT ARTIFACTS:
+--------------------------------------------------------------------------------
+- documentation/level4/task_4_4_key_observations.md
+- documentation/level4/task_4_4_summary.md
+- screenshots/level4/task_4_4.png
+- documentation/level4/task_4_4.txt
+
+4. INTERPRETATION & KEY FINDINGS:
+--------------------------------------------------------------------------------
+- [DATA FACT] Short Route Duration: Mean = 49.50 min (0.82 h), Median = 52.00 min, N = 3,860.
+- [DATA FACT] Medium Route Duration: Mean = 142.02 min (2.37 h), Median = 135.00 min, N = 3,518.
+- [DATA FACT] Long Route Duration: Mean = 637.34 min (10.62 h), Median = 555.00 min, N = 3,729.
+- [DATA FACT] National Station Ranking: CSMT leads with 1,027 distinct trains, followed by
+  Kalyan (828), Thane (796), Sealdah (745), and Chennai Beach (738).
+- [DATA FACT] High-Traffic Cutoff: Top Decile threshold (>= 48 trains) captures 830 stations (10.19%).
+- [QA VERIFICATION] Level 4 is 100% complete. Reached Checkpoint 3 boundary.
+================================================================================

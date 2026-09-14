@@ -317,6 +317,125 @@
 - **Validation**: `python -m pytest -v` executed, 38/38 tests PASSED (100%).
 - **Task Tracker**: Updated `documentation/task_tracker.csv` row 3.4 to `COMPLETED`.
 - **Level 3 Status**: Level 3 (Tasks 3.1–3.4) is 100% COMPLETE.
-- **Phase Checkpoint 2**: Reached phase boundary for Level 2 + Level 3 bundle. Ready for git commit and push.
+- **Phase Checkpoint 2**: Reached phase boundary for Level 2 + Level 3 bundle. Committed (`fa02545`, `f96bb57`) and pushed to GitHub main.
+
+## Session 16: Task 4.1 — Duration Comparison Across Route Types (Level 4)
+- **Date / Timestamp**: 2026-09-14T16:40:00+05:30
+- **Task ID**: 4.1 (Level 4)
+- **Status**: COMPLETED
+- **Implementation**: `src/level4/task_4_1_duration_comparison.py`
+- **Output Artifacts**:
+  - `outputs/tables/task_4_1_duration_by_route_type.csv` (4 rows, 12 columns)
+  - `outputs/tables/task_4_1_duration_comparison.csv` (mirror table)
+- **Evidence Screenshot**: `screenshots/level4/task_4_1.png`
+- **Documentation**: `documentation/level4/task_4_1.txt`
+- **Test File**: `tests/test_level4.py`
+- **Factual Results**:
+  - Total Trains Analyzed: 11,113 unique trains across Indian Railways timetable network.
+  - Computable Trains Retained: 11,107 trains (99.95% of network).
+  - Unresolvable Duration Trains Excluded: Exactly 6 trains (0.054% of network, all in Long distance tier: 12617, 12851, 16318, 18233, 18477, 22633; flagged due to identical start and end clock times in circular/shuttle runs).
+  - Short Route Durations (N=3,860 trains, 34.8%):
+    * Mean: 49.50 minutes (0.82 hours)
+    * Median: 52.00 minutes (0.87 hours)
+    * Std Dev: 19.55 minutes
+    * Min: 5.00 minutes | Max: 80.00 minutes
+  - Medium Route Durations (N=3,518 trains, 31.7%):
+    * Mean: 142.02 minutes (2.37 hours)
+    * Median: 135.00 minutes (2.25 hours)
+    * Std Dev: 44.13 minutes
+    * Min: 81.00 minutes | Max: 240.00 minutes
+  - Long Route Durations (N=3,729 computable trains, 33.6%):
+    * Mean: 637.34 minutes (10.62 hours)
+    * Median: 555.00 minutes (9.25 hours)
+    * Std Dev: 323.17 minutes (5.39 hours)
+    * Min: 242.00 minutes | Max: 1,435.00 minutes (23.92 hours)
+  - Overall Network Universe (N=11,107 computable trains):
+    * Mean: 276.16 minutes (4.60 hours)
+    * Median: 132.00 minutes (2.20 hours)
+    * Std Dev: 321.19 minutes
+  - Sample Size Assessment: All three categories have large, robust sample sizes ($N \ge 3,518$ trains per group). Zero groups suffer from small-sample distortion.
+  - Subsample Validation: Manual arithmetic sum of first 10 Short trains (430.0 mins / 10 = 43.00 mins) matches pandas computation. Spot check Train 107 confirmed 105.0 mins (Medium route); Train 12424 confirmed 950.0 mins (Long route).
+- **Validation**: `python -m pytest -v` executed, 42/42 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 4.1 to `COMPLETED`.
+- **Git Checkpoint**: Uncommitted per Section 24 (bundled into Checkpoint 3 upon completion of Level 4: Tasks 4.1–4.4).
+
+## Session 17: Task 4.2 — Identify High-Traffic Stations (Level 4)
+- **Date / Timestamp**: 2026-09-14T16:50:00+05:30
+- **Task ID**: 4.2 (Level 4)
+- **Status**: COMPLETED
+- **Implementation**: `src/level4/task_4_2_high_traffic_stations.py`
+- **Output Artifact**: `outputs/tables/task_4_2_high_traffic_stations.csv` (830 rows, 9 columns)
+- **Evidence Screenshot**: `screenshots/level4/task_4_2.png`
+- **Documentation**: `documentation/level4/task_4_2.txt`
+- **Test File**: `tests/test_level4.py`
+- **Factual Results**:
+  - Total Stations Evaluated: 8,147 stations across Indian Railways.
+  - Cutoff Methodology: Top Decile (90th percentile = 48.0 distinct trains).
+  - High-Traffic Stations Identified: 830 stations (10.19% of network universe).
+  - Operational Tier Distribution:
+    * Tier 1 (Mega Hubs / Top 1%): 83 stations ($\ge 233$ trains, mean = 342.0 trains)
+    * Tier 2 (Major Hubs / Top 5%): 328 stations ($91 - 232$ trains, mean = 138.0 trains)
+    * Tier 3 (Regional Hubs / Top 10%): 419 stations ($48 - 90$ trains, mean = 64.3 trains)
+  - Top 5 Busiest Stations by Distinct Train Count:
+    1. `CSMT` (CST-MUMBAI): 1,027 trains (9.24% of national network)
+    2. `KYN` (KALYAN JN): 828 trains (7.45% of national network)
+    3. `TNA` (THANE): 796 trains (7.16% of national network)
+    4. `SDAH` (SEALDAH): 745 trains (6.70% of national network)
+    5. `MSB` (CHENNAI BEACH): 738 trains (6.64% of national network)
+  - Validation: Confirmed cutoff produces a sensible, non-empty, non-total list (830 / 8,147). Spot-checks on CSMT (1,027), KYN (828), and BZA (416) reconciled 100% against verified dataset.
+- **Validation**: `python -m pytest -v` executed, 45/45 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 4.2 to `COMPLETED`.
+- **Git Checkpoint**: Uncommitted per Section 24 (bundled into Checkpoint 3 upon completion of Level 4: Tasks 4.1–4.4).
+
+## Session 18: Task 4.3 — Basic Visualizations (Duration & Station Traffic) (Level 4)
+- **Date / Timestamp**: 2026-09-14T16:55:00+05:30
+- **Task ID**: 4.3 (Level 4)
+- **Status**: COMPLETED
+- **Implementation**: `src/level4/task_4_3_visualizations.py`
+- **Output Artifacts**:
+  - `outputs/charts/task_4_3_duration_by_route_type.png` (10x6 in, 150 DPI, 92.1 KB)
+  - `outputs/charts/task_4_3_duration_by_route.png` (mirror chart, 92.1 KB)
+  - `outputs/charts/task_4_3_high_traffic_stations.png` (11x7 in, 150 DPI, 175.1 KB)
+  - `outputs/charts/task_4_3_duration_histogram.png` (11x6.5 in, 150 DPI, 149.8 KB)
+- **Evidence Screenshot**: `screenshots/level4/task_4_3.png`
+- **Documentation**: `documentation/level4/task_4_3.txt`
+- **Test File**: `tests/test_level4.py`
+- **Visual & Analytical Findings**:
+  - Chart 1 (Duration by Route Type): Clearly illustrates progression across tiers — Short (Mean 49.5m, Med 52.0m), Medium (Mean 142.0m, Med 135.0m), Long (Mean 637.3m, Med 555.0m). Annotated with minutes, hours, and sample sizes per tier (N=3,860, N=3,518, N=3,729).
+  - Chart 2 (Top 15 High-Traffic Stations): Horizontal bar chart ranking Mumbai, Kolkata, and Chennai terminals/junctions; CST-Mumbai #1 (1,027 trains), Kalyan #2 (828), Thane #3 (796), Sealdah #4 (745), Chennai Beach #5 (738). Color-coded by traffic tier with exact train counts and network share callouts.
+  - Chart 3 (Overall Duration Histogram): 50-bin distribution with KDE curve; highlights suburban commuter peak (< 90 min) vs. long-tail multi-state express tail (up to 23.9 hrs). Displays vertical dashed lines for Median (132.0 min / 2.2 hrs), Mean (276.2 min / 4.6 hrs), and dual hours axis.
+  - Quality & Integrity: Verified all charts have full titles, axis labels with units, legends, and non-zero file sizes without label clipping.
+- **Validation**: `python -m pytest -v` executed, 46/46 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 4.3 to `COMPLETED`.
+- **Git Checkpoint**: Uncommitted per Section 24 (bundled into Checkpoint 3 upon completion of Level 4: Tasks 4.1–4.4).
+
+## Session 19: Task 4.4 — Summarize Key Observations (Level 4)
+- **Date / Timestamp**: 2026-09-14T17:00:00+05:30
+- **Task ID**: 4.4 (Level 4)
+- **Status**: COMPLETED
+- **Implementation**: `src/level4/task_4_4_summary_insights.py`
+- **Output Artifacts**:
+  - `documentation/level4/task_4_4_key_observations.md` (7 observations, 7.5 KB)
+  - `documentation/level4/task_4_4_summary.md` (mirror markdown report)
+- **Evidence Screenshot**: `screenshots/level4/task_4_4.png`
+- **Documentation**: `documentation/level4/task_4_4.txt`
+- **Test File**: `tests/test_level4.py`
+- **Key Summary Points**:
+  - Observation 1: Service paradigm hierarchy (Short: 49.5m mean / 52m median, Medium: 142.0m / 135m, Long: 637.3m / 555m).
+  - Observation 2: 82.3-minute positive skew in Long routes (Std Dev = 5.39 hrs, max 23.9 hrs).
+  - Observation 3: Bimodal network profile (suburban commuter peak vs. inter-state trunks; global median 132 min vs. mean 276.2 min).
+  - Observation 4: Metropolitan hub dominance (CSMT 1,027 trains / 9.24%, Kalyan 828, Thane 796).
+  - Observation 5: Top Decile rule (830 stations carry bulk traffic, remaining 89.8% rural/branch).
+  - Observation 6: Hierarchical hub stratification (Tier 1: 83 stations, Tier 2: 328, Tier 3: 419).
+  - Observation 7: Twin-terminal architectures in Kolkata (Sealdah 745, Howrah 699) and Chennai (Chennai Beach 738, Tambaram 434).
+  - QA Disclosures: Explicit note on 6 unresolvable trains (0.054%) safely excluded with zero sample distortion.
+- **Validation**: `python -m pytest -v` executed, 48/48 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 4.4 to `COMPLETED`.
+- **Level 4 Status**: Level 4 (Tasks 4.1–4.4) is 100% COMPLETE.
+- **Phase Checkpoint 3**: Reached phase boundary for Level 4 bundle. Ready for git commit and push.
+
+
+
+
 
 

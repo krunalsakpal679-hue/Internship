@@ -90,4 +90,4 @@ tests/test_train_enquiry.py::test_invalid_station_query PASSED           [ 97%]
 tests/test_train_enquiry.py::test_same_source_and_destination_query PASSED [ 98%]
 tests/test_train_enquiry.py::test_strict_directionality PASSED           [100%]
 
-============================= 83 passed in 39.24s =============================
+============================= 83 passed in 40.37s =============================

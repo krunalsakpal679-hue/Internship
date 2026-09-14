@@ -96,6 +96,7 @@ Execution Modes:
     )
     parser.add_argument("--pipeline", action="store_true", help="Execute complete analytical pipeline (Levels 0–6)")
     parser.add_argument("--app", action="store_true", help="Launch interactive route enquiry CLI application")
+    parser.add_argument("--gui", action="store_true", help="Launch interactive route enquiry Desktop GUI application")
     parser.add_argument("--test", action="store_true", help="Execute automated test suite using pytest")
     parser.add_argument("--audit", action="store_true", help="Execute 9-part evidence chain audit")
 
@@ -103,12 +104,17 @@ Execution Modes:
 
     if args.pipeline:
         run_full_pipeline()
+    elif args.gui:
+        print_banner()
+        print("Launching Desktop Graphical User Interface (GUI)...\n")
+        from app.gui_enquiry import main as gui_main
+        gui_main()
     elif args.test:
         print_banner()
-        subprocess.run([sys.executable, "-m", "pytest", "-v"])
+        sys.exit(subprocess.run([sys.executable, "-m", "pytest", "-v"]).returncode)
     elif args.audit:
         print_banner()
-        subprocess.run([sys.executable, "src/validation/evidence_audit.py"])
+        sys.exit(subprocess.run([sys.executable, "src/validation/evidence_audit.py"]).returncode)
     else:
         launch_enquiry_cli()
 

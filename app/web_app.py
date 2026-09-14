@@ -4,11 +4,6 @@ Sysslan IT Solutions Internship Project.
 Author: Krunal Sakpal
 
 Serves an interactive Web UI at http://127.0.0.1:5000
-Features:
-- Live Direct Route Search with instantaneous JSON API
-- Train Timetable lookup with full stop details
-- Visual Analytics dashboard with embedded high-res charts
-- System Overview & Dataset Statistics
 """
 
 import os
@@ -104,6 +99,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         /* Status & Alert Box */
         .alert-info { background: #e3f2fd; border-left: 4px solid var(--primary); padding: 14px 18px; border-radius: 6px; font-size: 14px; color: #0d47a1; margin-bottom: 20px; font-weight: 500; }
         .alert-success { background: #e8f5e9; border-left: 4px solid var(--success); padding: 14px 18px; border-radius: 6px; font-size: 14px; color: var(--success); margin-bottom: 20px; font-weight: 600; }
+        .alert-warning { background: #fff8e1; border-left: 4px solid var(--accent); padding: 14px 18px; border-radius: 6px; font-size: 14px; color: #e65100; margin-bottom: 20px; font-weight: 500; }
         .alert-danger { background: #ffebee; border-left: 4px solid #c62828; padding: 14px 18px; border-radius: 6px; font-size: 14px; color: #c62828; margin-bottom: 20px; }
 
         /* Analytics Gallery */
@@ -170,6 +166,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 <span class="chip" onclick="setRoute('CSMT', 'KYN')">CSMT → KYN</span>
                 <span class="chip" onclick="setRoute('BZA', 'MAS')">BZA → MAS</span>
                 <span class="chip" onclick="setRoute('NDLS', 'HWH')">NDLS → HWH</span>
+                <span class="chip" onclick="setRoute('HWH', 'NDLS')">HWH → NDLS</span>
                 <span class="chip" onclick="setRoute('PUNE', 'CSMT')">PUNE → CSMT</span>
                 <span class="chip" onclick="setRoute('SBC', 'MAS')">SBC → MAS</span>
             </div>
@@ -304,19 +301,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const res = await fetch(`/api/routes?src=${encodeURIComponent(src)}&dst=${encodeURIComponent(dst)}`);
             const data = await res.json();
 
-            if (!data.success) {
-                area.innerHTML = `<div class="alert-danger">❌ ${data.error}</div>`;
+            if (data.status === 'ERROR') {
+                area.innerHTML = `<div class="alert-danger">❌ ${data.message}</div>`;
                 return;
             }
 
-            if (data.total_trains === 0) {
-                area.innerHTML = `<div class="alert-info">ℹ️ No direct trains found from <strong>${data.source.name} (${data.source.code})</strong> to <strong>${data.destination.name} (${data.destination.code})</strong>.</div>`;
+            if (data.status === 'NO_DIRECT_TRAINS' || data.count === 0) {
+                area.innerHTML = `<div class="alert-warning">ℹ️ ${data.message}</div>`;
                 return;
             }
 
             let html = `
                 <div class="alert-success">
-                    ✅ Found <strong>${data.total_trains} Direct Train(s)</strong> from <strong>${data.source.name} (${data.source.code})</strong> ➔ <strong>${data.destination.name} (${data.destination.code})</strong>
+                    ✅ <strong>Found ${data.count} Direct Train(s)</strong> from <strong>${data.source}</strong> ➔ <strong>${data.destination}</strong>
                 </div>
                 <div class="card">
                     <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px;">💡 Click any row to view its complete stop-by-stop route timetable.</p>
@@ -335,15 +332,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                             <tbody>
             `;
 
-            data.trains.forEach(t => {
+            data.results.forEach(t => {
                 html += `
-                    <tr onclick="inspectTrain('${t.train_no}')">
-                        <td><span class="train-badge">${t.train_no}</span></td>
-                        <td><strong>${t.source_departure}</strong></td>
-                        <td><strong>${t.destination_arrival}</strong></td>
-                        <td>${t.intermediate_stops} stops</td>
-                        <td>${t.segment_distance_km} km</td>
-                        <td><span class="duration-badge">${t.estimated_duration_formatted}</span></td>
+                    <tr onclick="inspectTrain('${t.Train_No}')">
+                        <td><span class="train-badge">${t.Train_No}</span></td>
+                        <td><strong>${t.Departure_Time}</strong></td>
+                        <td><strong>${t.Arrival_Time}</strong></td>
+                        <td>${t.Intermediate_Stops} stops</td>
+                        <td>${t.Distance_km} km</td>
+                        <td><span class="duration-badge">${t.Duration_Formatted}</span></td>
                     </tr>
                 `;
             });
@@ -449,31 +446,37 @@ def index():
 
 @app.route("/api/routes")
 def api_routes():
-    src = request.args.get("src", "").strip()
-    dst = request.args.get("dst", "").strip()
-    if not src or not dst:
-        return jsonify({"success": False, "error": "Both 'src' and 'dst' parameters are required."})
-    res = engine.query_direct_routes(src, dst)
-    return jsonify(res)
+    try:
+        src = request.args.get("src", "").strip()
+        dst = request.args.get("dst", "").strip()
+        if not src or not dst:
+            return jsonify({"status": "ERROR", "message": "Both origin and destination stations are required.", "count": 0, "results": []})
+        res = engine.search_direct_trains(src, dst)
+        return jsonify(res)
+    except Exception as e:
+        return jsonify({"status": "ERROR", "message": f"Server processing exception: {str(e)}", "count": 0, "results": []})
 
 @app.route("/api/timetable")
 def api_timetable():
-    train_no = request.args.get("train_no", "").strip()
-    if not train_no:
-        return jsonify({"success": False, "error": "Parameter 'train_no' is required."})
-    if train_no not in engine.train_schedules:
-        return jsonify({"success": False, "error": f"Train '{train_no}' not found in the verified dataset."})
+    try:
+        train_no = request.args.get("train_no", "").strip()
+        if not train_no:
+            return jsonify({"success": False, "error": "Parameter 'train_no' is required."})
+        if train_no not in engine.train_schedules:
+            return jsonify({"success": False, "error": f"Train '{train_no}' not found in the verified dataset."})
 
-    stops = engine.train_schedules[train_no]
-    return jsonify({
-        "success": True,
-        "train_no": train_no,
-        "origin": {"code": stops[0]["Station_Code"], "name": stops[0]["Station_Name"]},
-        "destination": {"code": stops[-1]["Station_Code"], "name": stops[-1]["Station_Name"]},
-        "total_stops": len(stops),
-        "total_distance_km": stops[-1]["Distance"],
-        "stops": stops
-    })
+        stops = engine.train_schedules[train_no]
+        return jsonify({
+            "success": True,
+            "train_no": train_no,
+            "origin": {"code": stops[0]["Station_Code"], "name": stops[0]["Station_Name"]},
+            "destination": {"code": stops[-1]["Station_Code"], "name": stops[-1]["Station_Name"]},
+            "total_stops": len(stops),
+            "total_distance_km": stops[-1]["Distance"],
+            "stops": stops
+        })
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)})
 
 @app.route("/charts/<filename>")
 def serve_chart(filename):

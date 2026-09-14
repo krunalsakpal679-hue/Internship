@@ -2,12 +2,6 @@
 
 Sysslan IT Solutions Internship Project.
 Author: Krunal Sakpal
-
-Features:
-- Tab 1: Interactive Route Enquiry (Source to Destination Direct Train Search)
-- Tab 2: Train Schedule Lookup (Complete stop-by-stop timetable)
-- Tab 3: Visual Analytics & Charts Gallery (High-res charts)
-- Tab 4: System Statistics & Verified Dataset Metadata
 """
 
 import sys
@@ -32,7 +26,6 @@ class TrainEnquiryGUI(tk.Tk):
         self.geometry("1100x750")
         self.minsize(850, 600)
 
-        # Style configuration
         self.style = ttk.Style()
         try:
             self.style.theme_use("clam")
@@ -40,8 +33,6 @@ class TrainEnquiryGUI(tk.Tk):
             pass
 
         self._configure_styles()
-
-        # Engine initialization
         self.engine = None
         self.status_var = tk.StringVar(value="Initializing database engine...")
 
@@ -49,7 +40,6 @@ class TrainEnquiryGUI(tk.Tk):
         self._create_notebook()
         self._create_statusbar()
 
-        # Direct load engine
         self.after(100, self._load_engine)
 
     def _configure_styles(self):
@@ -65,34 +55,19 @@ class TrainEnquiryGUI(tk.Tk):
         header_frame = ttk.Frame(self, padding="15 10 15 5")
         header_frame.pack(fill=tk.X)
 
-        title_lbl = ttk.Label(
-            header_frame,
-            text="🚆 Indian Railways Interactive Route Enquiry System",
-            style="Header.TLabel"
-        )
-        title_lbl.pack(anchor=tk.W)
-
-        subtitle_lbl = ttk.Label(
-            header_frame,
-            text="Sysslan IT Solutions Internship Project | Author: Krunal Sakpal | 186,074 Verified Records",
-            style="SubHeader.TLabel"
-        )
-        subtitle_lbl.pack(anchor=tk.W)
-
-        sep = ttk.Separator(self, orient=tk.HORIZONTAL)
-        sep.pack(fill=tk.X, padx=10, pady=5)
+        ttk.Label(header_frame, text="🚆 Indian Railways Interactive Route Enquiry System", style="Header.TLabel").pack(anchor=tk.W)
+        ttk.Label(header_frame, text="Sysslan IT Solutions Internship Project | Author: Krunal Sakpal | 186,074 Verified Records", style="SubHeader.TLabel").pack(anchor=tk.W)
+        ttk.Separator(self, orient=tk.HORIZONTAL).pack(fill=tk.X, padx=10, pady=5)
 
     def _create_statusbar(self):
         statusbar = ttk.Frame(self, relief=tk.SUNKEN, padding=(10, 4))
         statusbar.pack(side=tk.BOTTOM, fill=tk.X)
-        self.lbl_status = ttk.Label(statusbar, textvariable=self.status_var, font=("Segoe UI", 9))
-        self.lbl_status.pack(side=tk.LEFT)
+        ttk.Label(statusbar, textvariable=self.status_var, font=("Segoe UI", 9)).pack(side=tk.LEFT)
 
     def _create_notebook(self):
         self.notebook = ttk.Notebook(self)
         self.notebook.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
-        # Tabs
         self.tab_route = ttk.Frame(self.notebook, padding=10)
         self.tab_schedule = ttk.Frame(self.notebook, padding=10)
         self.tab_analytics = ttk.Frame(self.notebook, padding=10)
@@ -114,7 +89,6 @@ class TrainEnquiryGUI(tk.Tk):
             n_stns = len(self.engine.code_to_name)
             n_trains = len(self.engine.train_schedules)
             self.status_var.set(f"Ready. Loaded {n_stns:,} stations and {n_trains:,} unique trains.")
-
             self.stn_list = sorted([f"{code} - {name}" for code, name in self.engine.code_to_name.items()])
             self.src_combo["values"] = self.stn_list[:300]
             self.dst_combo["values"] = self.stn_list[:300]
@@ -131,16 +105,13 @@ class TrainEnquiryGUI(tk.Tk):
         self.src_combo.grid(row=0, column=1, padx=5, pady=5)
         self.src_combo.set("CSMT - CST-MUMBAI")
 
-        btn_swap = ttk.Button(ctrl_frame, text=" ⇄ Swap ", command=self._swap_stations)
-        btn_swap.grid(row=0, column=2, padx=5, pady=5)
-
+        ttk.Button(ctrl_frame, text=" ⇄ Swap ", command=self._swap_stations).grid(row=0, column=2, padx=5, pady=5)
         ttk.Label(ctrl_frame, text="Destination Station (Code or Name):").grid(row=0, column=3, sticky=tk.W, padx=5, pady=5)
         self.dst_combo = ttk.Combobox(ctrl_frame, width=30)
         self.dst_combo.grid(row=0, column=4, padx=5, pady=5)
         self.dst_combo.set("KYN - KALYAN JN")
 
-        btn_search = ttk.Button(ctrl_frame, text="🔍 Find Direct Trains", style="Primary.TButton", command=self._on_search_routes)
-        btn_search.grid(row=0, column=5, padx=10, pady=5)
+        ttk.Button(ctrl_frame, text="🔍 Find Direct Trains", style="Primary.TButton", command=self._on_search_routes).grid(row=0, column=5, padx=10, pady=5)
 
         chips_frame = ttk.Frame(self.tab_route)
         chips_frame.pack(fill=tk.X, pady=3)
@@ -150,16 +121,15 @@ class TrainEnquiryGUI(tk.Tk):
             ("CSMT → KYN", "CSMT", "KYN"),
             ("BZA → MAS", "BZA", "MAS"),
             ("NDLS → HWH", "NDLS", "HWH"),
+            ("HWH → NDLS", "HWH", "NDLS"),
             ("PUNE → CSMT", "PUNE", "CSMT"),
             ("SBC → MAS", "SBC", "MAS"),
         ]
         for label, s, d in examples:
-            btn = ttk.Button(chips_frame, text=label, style="Accent.TButton", command=lambda src=s, dst=d: self._set_route(src, dst))
-            btn.pack(side=tk.LEFT, padx=3)
+            ttk.Button(chips_frame, text=label, style="Accent.TButton", command=lambda src=s, dst=d: self._set_route(src, dst)).pack(side=tk.LEFT, padx=3)
 
         self.summary_var = tk.StringVar(value="Enter origin and destination station codes or names above, then click Search.")
-        lbl_summary = ttk.Label(self.tab_route, textvariable=self.summary_var, font=("Segoe UI", 10, "bold"), foreground="#00695c")
-        lbl_summary.pack(anchor=tk.W, pady=6)
+        ttk.Label(self.tab_route, textvariable=self.summary_var, font=("Segoe UI", 10, "bold"), foreground="#00695c").pack(anchor=tk.W, pady=6)
 
         table_frame = ttk.Frame(self.tab_route)
         table_frame.pack(fill=tk.BOTH, expand=True)
@@ -186,11 +156,9 @@ class TrainEnquiryGUI(tk.Tk):
 
         self.route_tree.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         tree_scroll_y.pack(side=tk.RIGHT, fill=tk.Y)
-
         self.route_tree.bind("<Double-1>", self._on_route_double_click)
 
-        lbl_hint = ttk.Label(self.tab_route, text="💡 Tip: Double-click any train in the table above to inspect its full stop-by-stop timetable.", font=("Segoe UI", 9, "italic"), foreground="#546e7a")
-        lbl_hint.pack(anchor=tk.W, pady=4)
+        ttk.Label(self.tab_route, text="💡 Tip: Double-click any train in the table above to inspect its full stop-by-stop timetable.", font=("Segoe UI", 9, "italic"), foreground="#546e7a").pack(anchor=tk.W, pady=4)
 
     def _swap_stations(self):
         s = self.src_combo.get()
@@ -213,36 +181,30 @@ class TrainEnquiryGUI(tk.Tk):
         for item in self.route_tree.get_children():
             self.route_tree.delete(item)
 
-        res = self.engine.query_direct_routes(src_raw, dst_raw)
+        res = self.engine.search_direct_trains(src_raw, dst_raw)
 
-        if not res["success"]:
-            self.summary_var.set(f"❌ Error: {res['error']}")
-            messagebox.showwarning("Search Notice", res["error"])
+        if res["status"] == "ERROR":
+            self.summary_var.set(f"❌ {res['message']}")
+            messagebox.showwarning("Search Notice", res["message"])
             return
 
-        total_trains = res["total_trains"]
-        src_name = res["source"]["name"]
-        src_code = res["source"]["code"]
-        dst_name = res["destination"]["name"]
-        dst_code = res["destination"]["code"]
-
-        if total_trains == 0:
-            self.summary_var.set(f"ℹ️ No direct trains found from {src_name} ({src_code}) to {dst_name} ({dst_code}).")
+        if res["status"] == "NO_DIRECT_TRAINS" or res["count"] == 0:
+            self.summary_var.set(f"ℹ️ {res['message']}")
             return
 
-        self.summary_var.set(f"✅ Found {total_trains} Direct Train(s) from {src_name} ({src_code}) → {dst_name} ({dst_code})")
+        self.summary_var.set(f"✅ Found {res['count']} Direct Train(s) from {res['source']} → {res['destination']}")
 
-        for train in res["trains"]:
+        for train in res["results"]:
             self.route_tree.insert(
                 "",
                 tk.END,
                 values=(
-                    train["train_no"],
-                    train["source_departure"],
-                    train["destination_arrival"],
-                    train["intermediate_stops"],
-                    f"{train['segment_distance_km']} km",
-                    train["estimated_duration_formatted"]
+                    train["Train_No"],
+                    train["Departure_Time"],
+                    train["Arrival_Time"],
+                    train["Intermediate_Stops"],
+                    f"{train['Distance_km']} km",
+                    train["Duration_Formatted"]
                 )
             )
 

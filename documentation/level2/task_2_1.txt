@@ -1,0 +1,43 @@
+TASK: Task 2.1: Standardize Schedule Fields (Arrival_time, Departure_Time)
+LEVEL: Level 2 — Simple Data Processing
+IMPLEMENTATION FILE: src/level2/task_2_1_standardize_times.py
+OUTPUT FILE: outputs/tables/task_2_1_standardized_times.csv
+EVIDENCE SCREENSHOT: screenshots/level2/task_2_1.png
+DOCUMENTATION: documentation/level2/task_2_1.txt
+GIT CHECKPOINT: Checkpoint 2 (Level 2 + Level 3 bundle, Section 24)
+
+1. REQUIREMENT:
+Convert Arrival_time and Departure_Time to a consistent, parseable time type and flag placeholder/invalid values (e.g. 00:00:00 used as a null-marker at origin/terminus) while preserving raw strings for auditability.
+Outputs:
+- outputs/tables/task_2_1_standardized_times.csv
+- screenshots/level2/task_2_1.png
+- documentation/level2/task_2_1.txt
+
+2. IMPLEMENTATION:
+- Script developed at src/level2/task_2_1_standardize_times.py.
+- Parsed Arrival_time and Departure_Time using pd.to_datetime(..., format='%H:%M:%S', errors='coerce').
+- Verified 100% parse success (0 NaT values across 186,074 rows).
+- Created Arrival_Time_Std and Departure_Time_Std standardized columns.
+- Reconstructed train stop boundaries using groupby('Train_No') to tag is_first_stop and is_last_stop.
+- Implemented methodological distinction between placeholder null-markers and scheduled midnight stops:
+  * Origin Placeholder: is_first_stop & Arrival_time == '00:00:00' -> Arrival_Valid = False.
+  * Terminus Placeholder: is_last_stop & Departure_Time == '00:00:00' -> Departure_Valid = False.
+  * Intermediate halts at 00:00:00 and terminus arrivals at 00:00:00 are preserved as Valid (True).
+- Performed spot-check validations across 5 sample trains (107, 12626, 12951, 34752, 53041).
+
+3. OUTPUT:
+- Table outputs/tables/task_2_1_standardized_times.csv generated with 186,074 rows and 16 columns.
+- Standardized vs Placeholder Counts:
+  * Total Records: 186,074
+  * Arrival_Valid = True: 184,123 (98.95%)
+  * Arrival_Valid = False (Origin Placeholders): 1,951 (1.05%)
+  * Departure_Valid = True: 184,119 (98.95%)
+  * Departure_Valid = False (Terminus Placeholders): 1,955 (1.05%)
+  * Intermediate Scheduled Midnight Arrivals: 48 (100% Valid)
+  * Intermediate Scheduled Midnight Departures: 15 (100% Valid)
+  * Terminus Scheduled Midnight Arrivals: 4 (Trains 34752, 40153, 40572, 64483; 100% Valid)
+
+4. INTERPRETATION:
+- DATA FACT: 100% of timestamp strings in Dataset1.csv strictly adhere to %H:%M:%S format with zero parsing failures.
+- METHODOLOGY: A timestamp of 00:00:00 cannot blindly be imputed or removed as 'bad data'. At the origin stop of 1,951 trains, 00:00:00 functions as a null-marker indicating 'no prior arrival'. At the terminus stop of 1,955 trains, 00:00:00 functions as a null-marker indicating 'no subsequent departure'.
+- METHODOLOGY: Intermediate stops with 00:00:00 (48 arrivals, 15 departures) and terminus stops with 00:00:00 arrival (4 trains) represent genuine scheduled operations around midnight and must remain flagged as Valid so journey duration calculations in Task 2.2 remain strictly accurate.

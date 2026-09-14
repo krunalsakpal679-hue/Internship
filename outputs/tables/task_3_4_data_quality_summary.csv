@@ -1,0 +1,6 @@
+Stage_ID,Quality_Dimension,Audit_Scope,Raw_Count,Affected_Count,Removed_Count,Final_Count,Quality_Status,Audit_Finding
+Level 3 Baseline,Raw Ingestion & Baseline Audit,"186,074 rows, 12 raw columns, 11,113 trains",186074,0,0,186074,PASSED,"Base raw dataset loaded with 186,074 station stops; 100% column population confirmed"
+Task 3.1,Completeness & Missing Values,"12 columns, null & placeholder detection",186074,3906,0,186074,VERIFIED,"0 genuine nulls; 1,951 origin arrival & 1,955 terminus departure 00:00:00 placeholders flagged without deletion; NAN station preserved"
+Task 3.2,Uniqueness & Deduplication,Full-row and schedule subset deduplication,186074,60,0,186074,VERIFIED,0 true duplicate rows; 60 circular repeat stop rows across 20 trains verified legitimate and preserved intact
+Task 3.3,Validity & Station Ordering,SN & Distance sequence monotonicity check,186074,268,0,186074,VERIFIED,"0 negative distance decreases; 10,845 trains strictly monotonic; 233 trains with zero-diff integer rounding; 35 trains with >500km non-stop runs; 0 rows altered"
+Task 3.4,Clean Dataset Finalization,Enriched dataset_verified.csv export & checksum check,186074,0,0,186074,VERIFIED,"Final clean dataset compiled with 186,074 rows, 21 columns; raw Dataset1.csv checksum verified 100% unmodified"

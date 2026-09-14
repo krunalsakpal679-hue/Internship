@@ -1,0 +1,39 @@
+TASK: Task 3.1: Handle Missing Schedule Values
+LEVEL: Level 3 — Data Quality Checks
+IMPLEMENTATION FILE: src/level3/task_3_1_missing_values.py
+OUTPUT FILE: outputs/tables/task_3_1_missing_value_report.csv
+EVIDENCE SCREENSHOT: screenshots/level3/task_3_1.png
+DOCUMENTATION: documentation/level3/task_3_1.txt
+GIT CHECKPOINT: Checkpoint 2 (Level 2 + Level 3 bundle, Section 24)
+
+1. REQUIREMENT:
+Identify and appropriately handle missing/placeholder values in Arrival_time, Departure_Time, Distance, and other schedule fields, ensuring zero silent deletions and providing explicit justification for every decision.
+Outputs:
+- outputs/tables/task_3_1_missing_value_report.csv
+- screenshots/level3/task_3_1.png
+- documentation/level3/task_3_1.txt
+
+2. IMPLEMENTATION:
+- Developed src/level3/task_3_1_missing_values.py.
+- Audited df.isna().sum(), empty whitespace strings, and pseudo-null markers across all 12 columns.
+- Reconciled with Task 2.1 placeholder flags for origin arrivals (1,951 rows) and terminus departures (1,955 rows).
+- Evaluated Station_Code 'NAN': protected against accidental parser coercion into NaN; confirmed all 6 rows represent Nanogaon Road railway station ('NANOGAON ROA').
+- Assessed Distance: confirmed zero missing values, zero unparseable strings, and zero negatives; 0 km legitimately marks route origins.
+- Zero-deletion policy: Enforced that no rows are dropped or silently deleted. Both raw strings and boolean validity flags are retained intact.
+
+3. OUTPUT:
+- outputs/tables/task_3_1_missing_value_report.csv generated with 12 column audit records.
+- Audit Findings:
+  * Total Dataset Rows: 186,074
+  * Raw isna() Nulls: Exactly 0 across all 12 columns (100.0% populated)
+  * Empty Strings (' '): Exactly 0 across all 12 columns
+  * Genuine Missing Gaps: Exactly 0
+  * Origin Arrival Placeholders (00:00:00): 1,951 (Flagged Arrival_Valid=False, preserved)
+  * Terminus Departure Placeholders (00:00:00): 1,955 (Flagged Departure_Valid=False, preserved)
+  * Station_Code 'NAN' rows: 6 (Retained intact, verified as Nanogaon Road)
+  * Total Rows Dropped: Exactly 0 (100.0% retention: 186,074 -> 186,074)
+
+4. INTERPRETATION:
+- DATA FACT: Dataset1.csv is an exceptionally clean, fully populated dataset with 0 physical missing values or empty strings.
+- METHODOLOGY: A common pitfall in railway schedule processing is deleting rows where Arrival_time or Departure_Time is '00:00:00' or where Distance is 0. Dropping these rows would destroy 3,906 legitimate terminal stop records and corrupt journey duration calculations.
+- METHODOLOGY: Preserving all 186,074 rows with explicit boolean flags (Arrival_Valid, Departure_Valid) maintains full auditability and satisfies the QA requirement of zero silent deletions.

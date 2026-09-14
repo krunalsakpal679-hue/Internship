@@ -1,0 +1,7 @@
+Audit_Metric,Count,Notes
+Initial Dataset Rows,186074,Raw Dataset1.csv rows loaded
+Exact Full-Row Duplicates,0,Across all 12 columns
+Candidate Schedule Duplicates,0,"On [Train_No, Station_Code, Arrival_time, Departure_Time]"
+True Duplicates Removed,0,Manual review confirmed zero true duplicates
+Legitimate Repeat Visits Preserved,60,60 rows across 20 circular/reversing routes
+Final Deduplicated Rows,186074,Saved to data/processed/dataset_dedup.csv

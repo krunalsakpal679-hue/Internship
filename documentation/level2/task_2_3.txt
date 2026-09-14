@@ -1,0 +1,39 @@
+TASK: Task 2.3: Classify Routes as Short / Medium / Long
+LEVEL: Level 2 — Simple Data Processing
+IMPLEMENTATION FILE: src/level2/task_2_3_route_classification.py
+OUTPUT FILE: outputs/tables/task_2_3_route_classification.csv
+EVIDENCE SCREENSHOT: screenshots/level2/task_2_3.png
+DOCUMENTATION: documentation/level2/task_2_3.txt
+GIT CHECKPOINT: Checkpoint 2 (Level 2 + Level 3 bundle, Section 24)
+
+1. REQUIREMENT:
+Classify each train's route by duration or distance using a data-driven, documented methodology, since the internship brief does not supply predefined thresholds.
+Outputs:
+- outputs/tables/task_2_3_route_classification.csv
+- screenshots/level2/task_2_3.png
+- documentation/level2/task_2_3.txt
+
+2. IMPLEMENTATION:
+- Analyzed distribution percentiles of Duration_Minutes and Total_Distance_km across all 11,113 trains.
+- METHODOLOGY (CRITICAL DISCLAIMER): The internship brief does NOT specify numerical cut points for route classification. Therefore, thresholds were established empirically using distribution terciles (approximate 33.3% and 66.7% percentiles) to guarantee balanced, statistically meaningful groups for downstream EDA:
+  * SHORT_MAX_MINUTES = 80 (33.3rd percentile of valid durations ~ 80 mins / 1.33 hrs)
+  * MEDIUM_MAX_MINUTES = 240 (66.7th percentile of valid durations ~ 240 mins / 4.00 hrs)
+  * Long Routes = > 240 minutes (> 4.00 hrs)
+- Distance Fallbacks: For the 6 trains flagged in Task 2.2 as having unresolvable durations (equal origin departure and terminus arrival times), distance terciles were applied (SHORT_MAX_KM = 50.0 km, MEDIUM_MAX_KM = 170.0 km). All 6 trains have total distance > 1,000 km and were appropriately classified as Long routes with Classification_Basis = 'Distance Fallback'.
+- Exposed thresholds as top-level configurable constants and verified adaptability in tests.
+
+3. OUTPUT:
+- outputs/tables/task_2_3_route_classification.csv generated with 11,113 rows and 14 columns.
+- Classification Counts and Breakdown:
+  * Short Routes:  3,860 trains (34.73%) | Mean Distance: 70.6 km  | Mean Duration: 49.5 mins (0.82 hrs)
+  * Medium Routes: 3,518 trains (31.66%) | Mean Distance: 163.9 km | Mean Duration: 142.0 mins (2.37 hrs)
+  * Long Routes:   3,735 trains (33.61%) | Mean Distance: 810.7 km | Mean Duration: 637.3 mins (10.62 hrs)
+  * Total Trains Classified: 11,113 (100.0% coverage; 0 unclassified)
+- Classification Basis:
+  * Duration-based: 11,107 trains (99.95%)
+  * Distance Fallback: 6 trains (0.05%)
+
+4. INTERPRETATION:
+- DATA FACT: Indian Railways operational network is heavily segmented into distinct operational tiers: short high-density suburban shuttles (34.7%), regional intercity links (31.7%), and long-distance inter-state expresses (33.6%).
+- METHODOLOGY: Using empirical terciles creates three robust, evenly balanced categories (~32-35% each), avoiding the severe skew that would occur if arbitrary thresholds (e.g. 500 km or 12 hours) were chosen without consulting the actual empirical distribution.
+- METHODOLOGY: These thresholds are explicitly labeled as an analytical methodology and are fully configurable via SHORT_MAX_MINUTES and MEDIUM_MAX_MINUTES constants.

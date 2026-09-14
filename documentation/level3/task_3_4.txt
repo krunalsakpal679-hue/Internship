@@ -1,0 +1,69 @@
+================================================================================
+TASK 3.4 DOCUMENTATION: SAVE THE VERIFIED DATASET & DATA QUALITY SUMMARY
+================================================================================
+Date / Timestamp: 2026-09-14T16:35:00+05:30
+Task ID: 3.4
+Level: 3 (Data Quality Checks)
+Phase: Phase 2 Data Preprocessing & Quality Checks (Checkpoint 2)
+
+1. REQUIREMENT:
+--------------------------------------------------------------------------------
+- Produce the final cleaned, verified dataset used for all Level 4-6 analysis.
+- Merge missing-value handling (Task 3.1), deduplication (Task 3.2), and station-order
+  validation results (Task 3.3) into one processed dataset.
+- Save as data/processed/dataset_verified.csv, separate from the raw file.
+- Write a data-quality summary reporting original row count, rows affected by each
+  check, and final row count (outputs/tables/task_3_4_data_quality_summary.csv).
+- Verify that data/raw/Dataset1.csv remains byte-for-byte unchanged.
+
+2. IMPLEMENTATION:
+--------------------------------------------------------------------------------
+- Script: src/level3/task_3_4_save_verified.py
+- Input Datasets:
+  * data/processed/dataset_dedup.csv (186,074 rows)
+  * outputs/tables/task_2_1_standardized_times.csv (standardized schedule fields)
+  * outputs/tables/task_2_3_route_classification.csv (Route_Type and duration metrics)
+  * outputs/tables/task_3_3_station_order_validation.csv (station-order validation status)
+- Processing Methodology:
+  * Base schedule columns preserved intact (12 raw columns).
+  * Standardized schedule columns merged: Arrival_Time_Std, Departure_Time_Std,
+    Arrival_Valid, Departure_Valid.
+  * Train-level analytical metadata mapped via Train_No: Duration_Minutes, Duration_Hours,
+    Duration_Status, Route_Type, Order_Validation_Status.
+  * Preserved Station_Code 'NAN' (Nanogaon Road, 6 rows) against parser NaN coercion.
+  * Verified 0 genuine nulls across core columns.
+  * Exported finalized dataset to data/processed/dataset_verified.csv (21 columns).
+  * Compiled comprehensive quality summary to outputs/tables/task_3_4_data_quality_summary.csv.
+  * Pre-run and post-run SHA-256 cryptographic verification of data/raw/Dataset1.csv.
+
+3. OUTPUT:
+--------------------------------------------------------------------------------
+- Primary Verified Dataset: data/processed/dataset_verified.csv
+  * Rows: 186,074 (100.0% retention)
+  * Columns: 21 (12 raw + 4 standardized times + 5 train analytical dimensions)
+  * Unique Trains: 11,113
+  * Unique Stations: 8,147
+- Data Quality Summary Table: outputs/tables/task_3_4_data_quality_summary.csv
+  * Baseline Raw Rows: 186,074
+  * Task 3.1 (Missing Values): 0 nulls, 3,906 placeholders flagged, 0 removed
+  * Task 3.2 (Deduplication): 0 duplicates, 60 repeat stops preserved, 0 removed
+  * Task 3.3 (Order Validation): 10,845 monotonic, 233 zero-diff, 35 jumps, 0 removed
+  * Task 3.4 (Verified Dataset): 186,074 rows retained (100.0%)
+- Evidence Screenshot: screenshots/level3/task_3_4.png
+- Documentation Note: documentation/level3/task_3_4.txt
+
+4. INTERPRETATION & QA ASSESSMENT:
+--------------------------------------------------------------------------------
+- [DATA FACT] The raw dataset contains zero genuine missing values and zero duplicate
+  station halt records. The 60 repeated station visits represent legitimate circular
+  and reversing train routes (e.g. Darjeeling Joyrides, Delhi Ring Railway).
+- [METHODOLOGY] Time placeholders (00:00:00 at origin arrivals and terminus departures)
+  are cleanly distinguished from operational midnight stops via boolean validity flags,
+  preventing data distortion while keeping all 186,074 station halts available for route analysis.
+- [DATA FACT] The station sequence ordering is 100% geographically monotonic with exactly
+  0 negative distance decreases across all 11,113 trains.
+- [QA VERIFICATION] The raw dataset SHA-256 checksum (8353639af562e88ceb8feb26454221d50fc97b38dc752e3fe6a7a0235f9ecd57) matches pre-run
+  and post-run, mathematically proving data/raw/Dataset1.csv was completely untouched.
+- [STATUS] Level 3 is 100% COMPLETE. The verified dataset is ready for Level 4 exploratory
+  data analysis and Level 6 route enquiry system deployment.
+================================================================================

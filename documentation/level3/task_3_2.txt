@@ -1,0 +1,45 @@
+TASK: Task 3.2: Remove Duplicate Train Records
+LEVEL: Level 3 — Data Quality Checks
+IMPLEMENTATION FILE: src/level3/task_3_2_duplicates.py
+OUTPUT FILES:
+- outputs/tables/task_3_2_duplicates_removed.csv
+- outputs/tables/task_3_2_duplicates_report.csv
+- data/processed/dataset_dedup.csv
+EVIDENCE SCREENSHOT: screenshots/level3/task_3_2.png
+DOCUMENTATION: documentation/level3/task_3_2.txt
+GIT CHECKPOINT: Checkpoint 2 (Level 2 + Level 3 bundle, Section 24)
+
+1. REQUIREMENT:
+Detect and remove genuine duplicate rows (identical Train_No + Station_Code + all schedule fields) while preserving legitimate repeat visits if any exist.
+Outputs:
+- outputs/tables/task_3_2_duplicates_removed.csv
+- data/processed/dataset_dedup.csv
+- screenshots/level3/task_3_2.png
+- documentation/level3/task_3_2.txt
+
+2. IMPLEMENTATION:
+- Developed src/level3/task_3_2_duplicates.py.
+- Evaluated candidate duplicates using df.duplicated(subset=['Train_No','Station_Code','Arrival_time','Departure_Time'], keep=False).
+- Evaluated exact full-row duplicates across all 12 columns.
+- Performed manual inspection of all candidate rows before dropping to guard against blanket drop_duplicates() errors.
+- Investigated subset=['Train_No', 'Station_Code'] to detect circular/loop route repeat visits: identified 60 rows across 20 distinct trains.
+- Verified that all 60 repeat visits represent legitimate physical railway operations (Darjeeling Himalayan Joyrides, Delhi Ring Railway, Gujarat DEMU branch shuttles, tourist circulars) where sequence numbers, arrival/departure timestamps, and cumulative distances are distinct and monotonic.
+- Preserved 100% of legitimate repeat visits intact and exported deduplicated dataset to data/processed/dataset_dedup.csv.
+
+3. OUTPUT:
+- outputs/tables/task_3_2_duplicates_removed.csv (0 true duplicate rows, table headers preserved).
+- outputs/tables/task_3_2_duplicates_report.csv (6-row audit summary table).
+- data/processed/dataset_dedup.csv (186,074 rows, 100% data retention).
+- Audit Metrics:
+  * Initial Rows: 186,074
+  * Exact Full-Row Duplicates: 0
+  * Candidate Schedule Duplicates: 0
+  * True Duplicates Removed: 0
+  * Legitimate Repeat Visits Preserved: 60 rows (30 pairs) across 20 trains
+  * Final Deduplicated Rows: 186,074
+  * Row Count Decrease: Exactly 0 (matches 0 true duplicates removed)
+
+4. INTERPRETATION:
+- DATA FACT: Dataset1.csv contains zero identical duplicate rows and zero duplicate schedule records.
+- METHODOLOGY: A naive blanket deduplication on ['Train_No', 'Station_Code'] would have catastrophically corrupted 20 train routes by erroneously discarding 30 valid return halts on major Indian railway services (including Darjeeling Himalayan Railway Joyrides and the Delhi Ring Railway).
+- METHODOLOGY: Meticulous candidate inspection confirmed that identical station codes within the same train have distinct timestamps and ascending distances, proving they are legitimate repeat visits rather than data duplication.

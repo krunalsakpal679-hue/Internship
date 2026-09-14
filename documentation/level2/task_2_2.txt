@@ -1,0 +1,41 @@
+TASK: Task 2.2: Total Journey Duration per Train
+LEVEL: Level 2 — Simple Data Processing
+IMPLEMENTATION FILE: src/level2/task_2_2_journey_duration.py
+OUTPUT FILE: outputs/tables/task_2_2_journey_duration.csv
+EVIDENCE SCREENSHOT: screenshots/level2/task_2_2.png
+DOCUMENTATION: documentation/level2/task_2_2.txt
+GIT CHECKPOINT: Checkpoint 2 (Level 2 + Level 3 bundle, Section 24)
+
+1. REQUIREMENT:
+Compute each train's total journey duration from the first departure (origin) to the final arrival (terminus), correctly handling midnight rollover with datetime objects and flagging trains where duration cannot be computed.
+Outputs:
+- outputs/tables/task_2_2_journey_duration.csv
+- screenshots/level2/task_2_2.png
+- documentation/level2/task_2_2.txt
+
+2. IMPLEMENTATION:
+- Developed calculate_journey_duration() function combining dummy base date (2026-01-01) with origin Departure_Time and terminus Arrival_time.
+- Enforced single-day midnight rollover rule (+1 day = +1,440 mins) when Arrival_time < Departure_Time.
+- Identified and flagged exactly 6 trains where Departure_Time == Arrival_time across distances up to 3,765 km. Because Dataset1.csv lacks a Day column, calculating 0 minutes would be physically impossible and guessing multi-day offsets would violate zero-fabrication rules. These 6 trains are explicitly flagged as unresolvable (Duration_Computable = False, Duration_Minutes = NaN), ensuring they are excluded from downstream averages rather than silently zero-filled.
+- Validated with spot-checks on Train 107 (105 mins), Train 12951 (935 mins), and Train 34752 (100 mins).
+
+3. OUTPUT:
+- outputs/tables/task_2_2_journey_duration.csv generated with 11,113 rows and 12 columns.
+- Journey Duration Breakdown:
+  * Total Trains: 11,113 (100% accounted for)
+  * Same Day Journeys (No Rollover): 9,185 trains (82.65%)
+  * Midnight Rollover Journeys (+1 Day): 1,922 trains (17.29%)
+  * Flagged Unresolvable Journeys (Equal Start/End Time): 6 trains (0.05%)
+  * Valid Computable Durations: 11,107 trains (99.95%)
+- Duration Statistics across 11,107 valid trains:
+  * Minimum Duration: 5.0 minutes (0.08 hours; Train 96001 KJT -> PDI shuttle, 2 km)
+  * Maximum Duration: 1,435.0 minutes (23.92 hours; Train 15904 CDG -> DBRG)
+  * Mean Duration: 276.16 minutes (4.60 hours)
+  * Median Duration: 132.0 minutes (2.20 hours)
+  * Negative Durations: Exactly 0 (100% verified)
+
+4. INTERPRETATION:
+- DATA FACT: 82.65% of Indian Railways services in this dataset terminate on the same calendar day they depart, reflecting a dominant proportion of suburban EMU and regional passenger services.
+- DATA FACT: 1,922 trains (17.29%) cross the midnight threshold, requiring rollover handling to prevent erroneous negative durations.
+- ASSUMPTION: Single-day rollover assumption. Because Dataset1.csv does not contain calendar dates or cumulative travel days, journeys crossing midnight are assumed to cross exactly once (+1 day). Highly extended multi-day journeys (e.g., 48-hour transcontinental routes) operate modulo 24 hours under this assumption.
+- METHODOLOGY: Flagging the 6 identical start/end timestamp trains as unresolvable rather than assigning 0 or guessing multi-day counts maintains strict data integrity and satisfies the QA exclusion rule for downstream task analyses.

@@ -1,0 +1,44 @@
+TASK: Task 2.4: Station-wise Train Frequency Counts
+LEVEL: Level 2 — Simple Data Processing
+IMPLEMENTATION FILE: src/level2/task_2_4_station_frequency.py
+OUTPUT FILE: outputs/tables/task_2_4_station_frequency.csv
+EVIDENCE SCREENSHOT: screenshots/level2/task_2_4.png
+DOCUMENTATION: documentation/level2/task_2_4.txt
+GIT CHECKPOINT: Checkpoint 2 (Level 2 + Level 3 bundle, Section 24)
+
+1. REQUIREMENT:
+For each Station_Code / Station_Name across the dataset, calculate the count of distinct trains that stop there using nunique(Train_No), sort descending by frequency, and report top 10 and bottom 10 stations.
+Outputs:
+- outputs/tables/task_2_4_station_frequency.csv
+- screenshots/level2/task_2_4.png
+- documentation/level2/task_2_4.txt
+
+2. IMPLEMENTATION:
+- Developed src/level2/task_2_4_station_frequency.py.
+- Grouped by Station_Code and computed Train_Count = nunique(Train_No) to avoid inflating train counts on circular or loop routes where a train halts twice at the same station (30 instances in Dataset1.csv).
+- Associated each station code with its canonical name via mode aggregation, properly consolidating minor spelling variants in 3 codes (LDH, SVDK, UMB).
+- Sorted descending by distinct train frequency, breaking ties alphabetically by Station_Code.
+- Validated via spot-checks on CSMT (1,027 trains) and KYN (828 trains).
+
+3. OUTPUT:
+- outputs/tables/task_2_4_station_frequency.csv generated with 8,147 station rows and 5 columns (Rank, Station_Code, Station_Name, Train_Count, Stop_Count).
+- Top 10 Busiest Stations by Distinct Train Count:
+  1. CSMT (CST-MUMBAI): 1,027 trains (1,027 halts)
+  2. KYN (KALYAN JN): 828 trains (828 halts)
+  3. TNA (THANE): 796 trains (796 halts)
+  4. SDAH (SEALDAH): 745 trains (745 halts)
+  5. MSB (CHENNAI BEAC): 738 trains (738 halts)
+  6. HWH (HOWRAH JN.): 699 trains (699 halts)
+  7. DR (DADAR): 567 trains (567 halts)
+  8. DDJ (DUM DUM JN.): 463 trains (463 halts)
+  9. CLA (KURLA): 462 trains (462 halts)
+  10. TBM (TAMBARAM): 434 trains (434 halts)
+- Bottom 10 Stations (all tied at 1 train):
+  * SKIP (SHIKARIPARA), SLJR (SALGAJHARI), SPRN (SALEMPUR HAL), STDB (SITAFALMANDI), TNRI (TENERI HALT), VNGL (LADDIVADI), VNGP (VANGAICHUNGP), VVKN (VIVEKANANDA), WSC (WEST CABIN T), YADA (SATYAVALLI).
+  * Total stations with exactly 1 train: 53.
+
+4. INTERPRETATION:
+- DATA FACT: Network traffic exhibits extreme concentration in major metropolitan suburban junctions: Mumbai Central Railway (CSMT, KYN, TNA, DR, CLA), Kolkata suburban (SDAH, HWH, DDJ), and Chennai suburban (MSB, TBM) dominate all top 10 positions.
+- DATA FACT: CSMT is the single busiest station in the entire network, serving 1,027 distinct services (9.24% of all trains in India).
+- DATA FACT: The distribution is heavily right-skewed: the top 1% of stations serve >= 233 trains each, whereas the median station serves only 10 trains.
+- METHODOLOGY: Using nunique(Train_No) rather than row count is essential for data integrity; 30 stations serve circular routes where a train calls more than once, which row counting would have erroneously exaggerated.

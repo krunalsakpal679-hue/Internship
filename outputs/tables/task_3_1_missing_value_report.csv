@@ -1,0 +1,13 @@
+Column_Name,Raw_Data_Type,Total_Rows,Null_Count,Null_Percentage,Empty_String_Count,Placeholder_Count,Placeholder_Description,Genuine_Gaps,Handling_Action,Justification
+SN,object,186074,0,0.0,0,0,None,0,Retained intact (0 rows deleted),100% complete and non-null; no imputation or deletion warranted
+Train_No,object,186074,0,0.0,0,0,None,0,Retained intact (0 rows deleted),100% complete and non-null; no imputation or deletion warranted
+Station_Code,object,186074,0,0.0,0,0,None (NAN = Nanogaon Road safeguarded),0,Retained intact (0 rows deleted),"Verified 6 rows of 'NAN' represent official Nanogaon Road railway station code, not missing data"
+1A,object,186074,0,0.0,0,0,None,0,Retained intact (0 rows deleted),100% complete and non-null; no imputation or deletion warranted
+2A,object,186074,0,0.0,0,0,None,0,Retained intact (0 rows deleted),100% complete and non-null; no imputation or deletion warranted
+3A,object,186074,0,0.0,0,0,None,0,Retained intact (0 rows deleted),100% complete and non-null; no imputation or deletion warranted
+SL,object,186074,0,0.0,0,0,None,0,Retained intact (0 rows deleted),100% complete and non-null; no imputation or deletion warranted
+Station_Name,object,186074,0,0.0,0,0,None,0,Retained intact (0 rows deleted),100% complete and non-null; no imputation or deletion warranted
+Route_Number,object,186074,0,0.0,0,0,None,0,Retained intact (0 rows deleted),100% complete and non-null; no imputation or deletion warranted
+Arrival_time,object,186074,0,0.0,0,1951,Origin Arrival null-marker (00:00:00),0,Flagged (Arrival_Valid=False); raw preserved; 0 rows deleted,Origin stations have no prior arrival; 00:00:00 preserved for traceability with boolean flag
+Departure_Time,object,186074,0,0.0,0,1955,Terminus Departure null-marker (00:00:00),0,Flagged (Departure_Valid=False); raw preserved; 0 rows deleted,Terminus stations have no onward departure; 00:00:00 preserved for traceability with boolean flag
+Distance,object,186074,0,0.0,0,0,None (0 km at origin is legitimate baseline),0,Retained intact (0 rows deleted),0 km marks route origin; all distance values strictly monotonic with zero negative values

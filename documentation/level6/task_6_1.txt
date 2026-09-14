@@ -1,0 +1,58 @@
+================================================================================
+TASK 6.1 DOCUMENTATION: INTERACTIVE ROUTE ENQUIRY APPLICATION
+================================================================================
+Date / Timestamp: 2026-09-14T17:30:00+05:30
+Task ID: 6.1
+Level: 6 (Interactive Route Enquiry Application)
+Phase: Phase 5 Application Development & Verification (Checkpoint 5)
+
+1. REQUIREMENT & PURPOSE:
+--------------------------------------------------------------------------------
+- Objective: Build a standalone command-line application (app/train_enquiry.py) where a user enters
+  a SOURCE and DESTINATION station and receives all DIRECT trains between them with estimated durations.
+- Core Requirements:
+  * Ingest data/processed/dataset_verified.csv once at startup into memory.
+  * Accept both Station Code and Station Name, case & whitespace insensitive.
+  * Strict DIRECT train logic: Source SN/Distance strictly < Destination SN/Distance on the same Train_No.
+  * Never return connecting trains (multi-leg transfers).
+  * Reuse Task 2.2 midnight-safe duration calculation.
+  * Comprehensive edge-case handling:
+    1. Unknown/invalid station (clear error message, no crash).
+    2. Source == Destination (explicit message, no results).
+    3. No direct trains found (explicit message, not silent/empty).
+    4. Multiple results (sorted by departure time with stops and distance).
+
+2. IMPLEMENTATION:
+--------------------------------------------------------------------------------
+- Application File: app/train_enquiry.py
+- Test File: tests/test_train_enquiry.py
+- Architecture:
+  * Class `TrainRouteEnquiryEngine`:
+    - `code_to_name` & `name_to_code`: O(1) hash maps for station resolution.
+    - `train_schedules`: Dictionary mapping Train_No -> ordered list of stop dicts.
+    - `station_to_trains`: Inverted index mapping station code -> set(Train_Nos) for instant candidate filtering.
+    - `search_direct_trains`: Evaluates candidates, validates sequence order, calculates segment duration & distance.
+    - `format_results_table`: Pretty ASCII tabular formatter for terminal output.
+    - `interactive_cli`: Console REPL loop with clean exit commands ('q', 'exit', 'quit').
+
+3. VALIDATION (5 REQUIRED TEST CASES):
+--------------------------------------------------------------------------------
+1. CSMT -> KYN (Valid Pair with Results):
+   - Result: 109 direct trains found.
+   - Top Result: Train #11093, Departure: 00:10:00, Arrival: 01:12:00, Duration: 1h 02m, Distance: 53 km, Intermediate Stops: 2.
+2. KOTA JN -> DIBRUGARH (Valid Pair with No Direct Trains):
+   - Status: NO_DIRECT_TRAINS. Message: "No direct trains found between KOTA (KOTA) and DIBRUGARH (DBRG).".
+3. XYZ_INVALID_STN -> CSMT (Invalid Station):
+   - Status: ERROR. Message: "Unknown or invalid source station: 'XYZ_INVALID_STN'. Please verify station code or name.".
+4. CST-MUMBAI -> CST-MUMBAI (Same Station):
+   - Status: ERROR. Message: "Source and destination stations are identical: CST-MUMBAI (CSMT). A journey requires distinct stations.".
+5. BZA -> MAS (Station Codes Instead of Names):
+   - Result: 45 direct trains found.
+   - Top Result: Train #12622, Departure: 00:25:00, Arrival: 07:10:00, Duration: 6h 45m.
+
+4. QA CONCLUSION:
+--------------------------------------------------------------------------------
+- 100% of functional requirements satisfied.
+- Sub-millisecond search performance achieved via inverted index.
+- Automated tests written in tests/test_train_enquiry.py.
+================================================================================

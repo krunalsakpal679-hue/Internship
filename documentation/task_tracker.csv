@@ -19,4 +19,4 @@ Task ID,Level,Status,Impl. File,Output File,Evidence,Docs,Git Ckpt
 5.2,5,COMPLETED,src/level5/task_5_2_crosstab.py,outputs/tables/task_5_2_route_crosstab.csv,screenshots/level5/task_5_2.png,documentation/level5/task_5_2.txt,Checkpoint 4
 5.3,5,COMPLETED,src/level5/task_5_3_comparative_charts.py,outputs/charts/task_5_3_station_pivot_heatmap.png,screenshots/level5/task_5_3.png,documentation/level5/task_5_3.txt,Checkpoint 4
 5.4,5,COMPLETED,src/level5/task_5_4_advanced_insights.py,documentation/level5/task_5_4_advanced_insights.md,screenshots/level5/task_5_4.png,documentation/level5/task_5_4.txt,Checkpoint 4
-6.1,6,NOT STARTED,app/train_enquiry.py,outputs/reports/enquiry_test_sample.txt,screenshots/level6/task_6_1.png,documentation/level6/task_6_1.txt,Checkpoint 5
+6.1,6,COMPLETED,app/train_enquiry.py,outputs/reports/enquiry_test_sample.txt,screenshots/level6/task_6_1.png,documentation/level6/task_6_1.txt,Checkpoint 5

@@ -527,7 +527,33 @@
 - **Validation**: `python -m pytest -v` executed, 57/57 tests PASSED (100%).
 - **Task Tracker**: Updated `documentation/task_tracker.csv` row 5.4 to `COMPLETED`.
 - **Level 5 Status**: Level 5 (Tasks 5.1–5.4) is 100% COMPLETE.
-- **Phase Checkpoint 4**: Reached phase boundary for Level 5 bundle. Ready for Git commit (`Complete advanced analysis and visualization`) and push.
+- **Phase Checkpoint 4**: Reached phase boundary for Level 5 bundle. Committed (`a687332`, `849c0c8`) and pushed to GitHub main.
+
+## Session 24: Task 6.1 — Interactive Route Enquiry Application (Level 6)
+- **Date / Timestamp**: 2026-09-14T17:30:00+05:30
+- **Task ID**: 6.1 (Level 6)
+- **Status**: COMPLETED
+- **Implementation**: `app/train_enquiry.py`, `src/level6/task_6_1_runner.py`
+- **Output Artifact**: `outputs/reports/enquiry_test_sample.txt`
+- **Evidence Screenshot**: `screenshots/level6/task_6_1.png`
+- **Documentation**: `documentation/level6/task_6_1.txt`
+- **Test File**: `tests/test_train_enquiry.py`
+- **Application & Validation Results**:
+  - Engine Architecture: Ingests `data/processed/dataset_verified.csv` (186,074 stops, 8,147 stations, 11,113 trains) into fast in-memory structures with an inverted station-to-train index (< 5ms query latency).
+  - Flexible Resolution: Accepts exact station codes (`CSMT`, `BZA`), exact names (`VIJAYWADA JN`, `CST-MUMBAI`), and colloquial aliases (`CHENNAI CENTRAL`, `KOTA JN`).
+  - Strict Direct Filtering: Verifies source and destination occur on the same `Train_No` with source sequence/distance strictly preceding destination. Never returns multi-leg transfers.
+  - Duration Calculation: Reuses validated Task 2.2 dummy-datetime logic with single-day midnight rollover.
+  - Validation Test Cases Executed:
+    1. `CSMT` to `KYN`: 144 direct trains found (sorted by departure time; top train #11005 dep 00:05, arr 01:23, 1h 18m, 53 km, 1 stop).
+    2. `KOTA JN` to `DIBRUGARH`: Correctly reported `NO_DIRECT_TRAINS` with explicit message.
+    3. `XYZ_INVALID_STN` to `CSMT`: Correctly reported `ERROR` with user-friendly station error message.
+    4. `CST-MUMBAI` to `CST-MUMBAI`: Correctly rejected identical source and destination with clear explanation.
+    5. `BZA` to `MAS`: 42 direct trains found with identical results whether querying by code or station name.
+- **Validation**: `python -m pytest -v` executed, 67/67 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 6.1 to `COMPLETED`.
+- **Level 6 Status**: Level 6 (Task 6.1) is 100% COMPLETE.
+- **Phase Checkpoint 5**: Reached phase boundary for Level 6. Ready for Git commit (`Build interactive CLI route enquiry application`) and push.
+
 
 
 

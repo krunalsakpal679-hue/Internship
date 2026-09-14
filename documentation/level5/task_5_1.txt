@@ -1,0 +1,91 @@
+================================================================================
+TASK 5.1 DOCUMENTATION: PIVOT TABLES - STATION-LEVEL ANALYSIS
+================================================================================
+Date / Timestamp: 2026-09-14T17:05:00+05:30
+Task ID: 5.1
+Level: 5 (Advanced Analytical Insights)
+Phase: Phase 4 Advanced Analysis & Cross-tabulation (Checkpoint 4)
+
+1. ANALYTICAL QUESTION & REQUIREMENT:
+--------------------------------------------------------------------------------
+- Analytical Question: "Which stations across Indian Railways serve the highest volume
+  of Long-route (>4h) inter-state trains versus Short-route (<=80m) suburban/local
+  trains, and how do major metropolitan junctions differ in their traffic composition?"
+- Build pivot table: Station_Name x Route_Type -> nunique(Train_No).
+- Sort and highlight top stations per service category.
+- Reconcile row totals against Task 2.4 station frequency table.
+
+2. IMPLEMENTATION:
+--------------------------------------------------------------------------------
+- Script: src/level5/task_5_1_pivot_tables.py
+- Inputs:
+  * data/processed/dataset_verified.csv (186,074 rows, 11,113 trains)
+  * outputs/tables/task_2_4_station_frequency.csv (canonical station naming & frequency)
+- Methodology:
+  * Constructed pivot table aggregating distinct Train_No per Station_Code across
+    Route_Type ('Short', 'Medium', 'Long').
+  * Mapped canonical station names to eliminate clerical spelling variants.
+  * Computed percentage shares (Pct_Short, Pct_Medium, Pct_Long) and total train volume.
+  * Exported complete 8,147-row table to outputs/tables/task_5_1_station_pivot.csv.
+  * Evidence: screenshots/level5/task_5_1.png, documentation/level5/task_5_1.txt.
+
+3. OUTPUT:
+--------------------------------------------------------------------------------
+Top 10 Stations by Overall Volume and Route Composition:
+Station_Code Station_Name  Short  Medium  Long  Total_Distinct_Trains  Pct_Short  Pct_Medium  Pct_Long
+        CSMT   CST-MUMBAI    804     138    85                   1027       78.3        13.4       8.3
+         KYN    KALYAN JN    483     130   215                    828       58.3        15.7      26.0
+         TNA        THANE    521     139   136                    796       65.5        17.5      17.1
+        SDAH      SEALDAH    339     348    58                    745       45.5        46.7       7.8
+         MSB CHENNAI BEAC    484     254     0                    738       65.6        34.4       0.0
+         HWH   HOWRAH JN.    157     327   215                    699       22.5        46.8      30.8
+          DR        DADAR    341     130    96                    567       60.1        22.9      16.9
+         DDJ  DUM DUM JN.    175     272    16                    463       37.8        58.7       3.5
+         CLA        KURLA    344     118     0                    462       74.5        25.5       0.0
+         TBM     TAMBARAM    274      93    67                    434       63.1        21.4      15.4
+
+Top 5 Stations by Long-Route Trains (Trunk Line Arteries):
+Station_Code Station_Name  Long  Pct_Long  Total_Distinct_Trains
+         BZA VIJAYWADA JN   316      76.0                    416
+         BRC VADODARA JN.   307      81.6                    376
+         CNB KANPUR CENTR   295      77.2                    382
+          ST        SURAT   272      86.1                    316
+         BSL BHUSAVAL JN.   253      84.9                    298
+
+Top 5 Stations by Short-Route Trains (Suburban Commuter Hubs):
+Station_Code Station_Name  Short  Pct_Short  Total_Distinct_Trains
+        CSMT   CST-MUMBAI    804       78.3                   1027
+         TNA        THANE    521       65.5                    796
+         MSB CHENNAI BEAC    484       65.6                    738
+         KYN    KALYAN JN    483       58.3                    828
+         CLA        KURLA    344       74.5                    462
+
+Top 5 Stations by Medium-Route Trains (Regional Express Hubs):
+Station_Code Station_Name  Medium  Pct_Medium  Total_Distinct_Trains
+        SDAH      SEALDAH     348        46.7                    745
+         HWH   HOWRAH JN.     327        46.8                    699
+         DDJ  DUM DUM JN.     272        58.7                    463
+         MSB CHENNAI BEAC     254        34.4                    738
+        BNXR  BIDHANNAGAR     226        55.9                    404
+
+4. INTERPRETATION & KEY FINDINGS:
+--------------------------------------------------------------------------------
+- [DATA FACT] Long-Route Arterial Junctions:
+  Vijayawada (BZA, 316 trains / 76.0%), Vadodara (BRC, 307 trains / 81.6%), Kanpur Central
+  (CNB, 295 trains / 77.2%), Surat (ST, 272 trains / 86.1%), and Bhusaval (BSL, 253 trains / 84.9%)
+  serve the highest volume of long-distance inter-state expresses in the nation.
+  `[INTERPRETATION]` These stations function as primary confluence nodes on India's High-Density
+  Trunk Corridors (Golden Quadrilateral and North-South/East-West diagonals).
+- [DATA FACT] Suburban Commuter Dominance in Mumbai and Chennai:
+  CST-Mumbai (CSMT) leads with 804 Short-route trains (78.3% of total), Thane (TNA) has 521 (65.5%),
+  and Chennai Beach (MSB) has 484 (65.6% short, 0 long).
+  `[INTERPRETATION]` Terminal stations in Mumbai and Chennai are specialized high-throughput commuter
+  gateways designed specifically for local suburban EMU turnarounds.
+- [DATA FACT] Kolkata's Regional Express Balance:
+  Sealdah (SDAH, 348 trains / 46.7%) and Howrah (HWH, 327 trains / 46.8%) lead the nation in
+  Medium-route (1.5 - 4 hour) services.
+  `[INTERPRETATION]` The Kolkata rail complex maintains a unique operational balance between
+  suburban local EMUs and dense regional intercity corridors connecting West Bengal districts.
+- [QA VERIFICATION] All 8,147 row totals reconcile with Task 2.4 with 0 mismatches. Spot check
+  cells for CSMT, BZA, and SDAH verified 100% against verified dataset.
+================================================================================

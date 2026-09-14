@@ -1,0 +1,78 @@
+================================================================================
+TASK 5.2 DOCUMENTATION: STRUCTURAL CROSS-TABULATION (TRAIN FREQUENCY & ROUTE TYPES)
+================================================================================
+Date / Timestamp: 2026-09-14T17:15:00+05:30
+Task ID: 5.2
+Level: 5 (Advanced Analytical Insights)
+Phase: Phase 4 Advanced Analysis & Cross-tabulation (Checkpoint 4)
+
+1. REQUIREMENT & ANALYTICAL PURPOSE:
+--------------------------------------------------------------------------------
+- Objective: Build a cross-tabulation of Route_Number against Route_Type (and service series pairing)
+  to analyze how train frequency is distributed structurally across the railway network.
+- Evaluate the role of Route_Number in Dataset1.csv.
+- Construct the service category (Train Series Prefix 0xxxx-9xxxx) vs. Route_Type cross-tabulation.
+- Compute marginal counts, row-wise proportions, and column-wise share distributions.
+
+2. IMPLEMENTATION:
+--------------------------------------------------------------------------------
+- Script: src/level5/task_5_2_crosstab.py
+- Input: data/processed/dataset_verified.csv (186,074 rows, 11,113 unique trains)
+- Methodology:
+  * Deduplicated stop records to distinct Train_No level (11,113 unique trains).
+  * Executed pd.crosstab on Route_Number x Route_Type.
+  * Extracted first digit of 5-digit Train_No to map official Indian Railways operational series:
+    - 0xxxx: Special / Holiday Trains
+    - 1xxxx: Long-Distance Mail / Express
+    - 2xxxx: Superfast / Premium Express
+    - 3xxxx: Kolkata Suburban EMU
+    - 4xxxx: Chennai / Delhi Suburban EMU
+    - 5xxxx: Conventional Passenger
+    - 6xxxx: MEMU Mainline EMU
+    - 7xxxx: DEMU Diesel EMU
+    - 8xxxx: Suvidha / Premium Special
+    - 9xxxx: Mumbai Suburban EMU
+  * Calculated row percentage distributions (% of each service in Short/Med/Long) and
+    column percentage distributions (% of total national Short/Med/Long trains).
+  * Output: outputs/tables/task_5_2_route_crosstab.csv
+  * Evidence: screenshots/level5/task_5_2.png, documentation/level5/task_5_2.txt
+
+3. OUTPUT:
+--------------------------------------------------------------------------------
+Structural Cross-Tabulation Matrix:
+Prefix_Digit                     Service_Category  Short  Medium  Long  Total_Trains  Pct_Short  Pct_Medium  Pct_Long  Col_Pct_Short  Col_Pct_Medium  Col_Pct_Long
+           0    0xxxx (Holiday / Special Express)     38      57   177           272      13.97       20.96     65.07           0.98            1.62          4.74
+           1 1xxxx (Long-Distance Mail / Express)     80     235  1998          2313       3.46       10.16     86.38           2.07            6.68         53.49
+           2  2xxxx (Superfast / Premium Express)     31      84   356           471       6.58       17.83     75.58           0.80            2.39          9.53
+           3         3xxxx (Kolkata Suburban EMU)    720     716     0          1436      50.14       49.86      0.00          18.65           20.35          0.00
+           4 4xxxx (Chennai / Delhi Suburban EMU)    710     401     0          1111      63.91       36.09      0.00          18.39           11.40          0.00
+           5       5xxxx (Conventional Passenger)    289     894   954          2137      13.52       41.83     44.64           7.49           25.41         25.54
+           6            6xxxx (MEMU Mainline EMU)    171     485   119           775      22.06       62.58     15.35           4.43           13.79          3.19
+           7              7xxxx (DEMU Diesel EMU)    243     473   121           837      29.03       56.51     14.46           6.30           13.45          3.24
+           8    8xxxx (Suvidha / Premium Special)      0       1    10            11       0.00        9.09     90.91           0.00            0.03          0.27
+           9          9xxxx (Mumbai Suburban EMU)   1578     172     0          1750      90.17        9.83      0.00          40.88            4.89          0.00
+         All                 Total (All Services)   3860    3518  3735         11113      34.73       31.66     33.61         100.00          100.00        100.00
+
+4. INTERPRETATION & KEY FINDINGS:
+--------------------------------------------------------------------------------
+- [DATA FACT] Route_Number Uniformity:
+  100.0% of trains (11,113 of 11,113) have Route_Number == 1.
+  `[INTERPRETATION]` In Dataset1.csv, Route_Number does not represent alternate routing branches
+  or multi-route operational splits; rather, every train schedule represents a single canonical route path.
+- [DATA FACT] Long-Distance Trunk Fleet Specialization (1xxxx & 2xxxx):
+  1xxxx series contains 2,313 trains, of which 1,998 (86.38%) are Long routes, accounting for
+  53.49% of all Long-distance trains nationwide.
+  2xxxx Superfast series contains 471 trains, of which 356 (75.58%) are Long routes.
+  Combined, 1xxxx and 2xxxx comprise 63.02% of all Long-distance trains in India.
+- [DATA FACT] Suburban Commuter Specialization (3xxxx, 4xxxx, 9xxxx):
+  9xxxx Mumbai EMU fleet (1,750 trains) is 90.17% Short routes (1,578 trains), contributing
+  40.88% of all Short routes in India. Exactly 0 trains in 9xxxx operate as Long routes.
+  4xxxx Chennai/Delhi EMU fleet (1,111 trains) has 710 Short (63.91%) and 401 Medium (36.09%), with 0 Long.
+  3xxxx Kolkata EMU fleet (1,436 trains) exhibits a 50/50 split: 720 Short (50.14%) and 716 Medium (49.86%).
+- [DATA FACT] Regional & Conventional Passenger Backbone (5xxxx, 6xxxx, 7xxxx):
+  5xxxx Conventional Passenger fleet (2,137 trains) is broadly distributed: 954 Long (44.64%),
+  894 Medium (41.83%), and 289 Short (13.52%).
+  6xxxx MEMU (775 trains) and 7xxxx DEMU (837 trains) are concentrated in Medium routes
+  (62.58% and 56.51% respectively), serving key regional inter-district transit.
+- [QA VERIFICATION] Row sums and column sums match 11,113 total trains perfectly with 0 discrepancies.
+================================================================================

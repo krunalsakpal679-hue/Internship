@@ -1,0 +1,44 @@
+================================================================================
+TASK 5.4 DOCUMENTATION: SUMMARIZE ADVANCED INSIGHTS (LEVEL 5 SUMMARY)
+================================================================================
+Date / Timestamp: 2026-09-14T17:25:00+05:30
+Task ID: 5.4
+Level: 5 (Advanced Analytical Insights)
+Phase: Phase 4 Advanced Analysis & Cross-tabulation (Checkpoint 4)
+
+1. REQUIREMENT & ANALYTICAL PURPOSE:
+--------------------------------------------------------------------------------
+- Objective: Write a comprehensive findings summary for Level 5, grounded in the pivot table
+  (Task 5.1) and cross-tabulation (Task 5.2) metrics.
+- Formulate 8 detailed bullet observations distinguishing DATA FACT from INTERPRETATION.
+- Trace every stated number to source tables.
+
+2. IMPLEMENTATION:
+--------------------------------------------------------------------------------
+- Script: src/level5/task_5_4_advanced_insights.py
+- Inputs:
+  * outputs/tables/task_5_1_station_pivot.csv (8,147 stations)
+  * outputs/tables/task_5_2_route_crosstab.csv (11 service series)
+  * outputs/charts/task_5_3_station_pivot_heatmap.png
+  * outputs/charts/task_5_3_route_crosstab_bar.png
+- Outputs:
+  * documentation/level5/task_5_4_advanced_insights.md (comprehensive markdown summary)
+  * screenshots/level5/task_5_4.png
+  * documentation/level5/task_5_4.txt
+
+3. KEY FINDINGS SUMMARY (8 OBSERVATIONS):
+--------------------------------------------------------------------------------
+1. High-Density Arterial Confluence: BZA (316 Long), BRC (307 Long), CNB (295 Long) lead national Long routes.
+2. Mumbai Commuter Monopoly: CSMT (804 Short), 9xxxx series (1,578 Short / 40.88% of all national Short routes).
+3. Kolkata Regional Balance: SDAH (348 Med) and HWH (327 Med) lead national Medium routes; 3xxxx is 50/50 Short/Med.
+4. Chennai Terminal Specialization: MSB (484 Short, 0 Long) is pure commuter; TBM (274 Short, 67 Long) is hybrid.
+5. Long-Distance Fleet Dominance: 1xxxx & 2xxxx contain 2,354 Long routes (63.02% of all Long routes in India).
+6. Universal Passenger Bridge: 5xxxx Passenger provides 2,137 trains across Long (954), Med (894), Short (289).
+7. Regional Intermediate Mobility: 6xxxx MEMU (62.6% Med) & 7xxxx DEMU (56.5% Med) supply 27.23% of all Med routes.
+8. Route Number Uniformity: 100.0% of trains in Dataset1.csv have Route_Number == 1.
+
+4. QA VERIFICATION:
+--------------------------------------------------------------------------------
+- All numbers verified against Task 5.1 and Task 5.2 output tables.
+- Level 5 complete. Ready for Phase Checkpoint 4.
+================================================================================

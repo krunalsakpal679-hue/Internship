@@ -432,7 +432,106 @@
 - **Validation**: `python -m pytest -v` executed, 48/48 tests PASSED (100%).
 - **Task Tracker**: Updated `documentation/task_tracker.csv` row 4.4 to `COMPLETED`.
 - **Level 4 Status**: Level 4 (Tasks 4.1–4.4) is 100% COMPLETE.
-- **Phase Checkpoint 3**: Reached phase boundary for Level 4 bundle. Ready for git commit and push.
+- **Phase Checkpoint 3**: Reached phase boundary for Level 4 bundle. Committed (`5b633c9`, `f41d013`) and pushed to GitHub main.
+
+## Session 20: Task 5.1 — Pivot Tables: Station-Level Analysis (Level 5)
+- **Date / Timestamp**: 2026-09-14T17:05:00+05:30
+- **Task ID**: 5.1 (Level 5)
+- **Status**: COMPLETED
+- **Implementation**: `src/level5/task_5_1_pivot_tables.py`
+- **Output Artifact**: `outputs/tables/task_5_1_station_pivot.csv` (8,147 rows, 9 columns)
+- **Evidence Screenshot**: `screenshots/level5/task_5_1.png`
+- **Documentation**: `documentation/level5/task_5_1.txt`
+- **Test File**: `tests/test_level5.py`
+- **Analytical Findings**:
+  - Analytical Question Answered: *"Which stations across Indian Railways serve the highest volume of Long-route (>4h) inter-state trains versus Short-route (<=80m) suburban/local trains, and how do major metropolitan junctions differ in their traffic composition?"*
+  - Long-Route Leaders: Vijayawada (`BZA`, 316 Long trains / 76.0%), Vadodara (`BRC`, 307 / 81.6%), Kanpur Central (`CNB`, 295 / 77.2%), Surat (`ST`, 272 / 86.1%), Bhusaval (`BSL`, 253 / 84.9%).
+  - Short-Route Leaders: CST-Mumbai (`CSMT`, 804 Short trains / 78.3%), Thane (`TNA`, 521 / 65.5%), Chennai Beach (`MSB`, 484 / 65.6%), Kalyan (`KYN`, 483 / 58.3%), Kurla (`CLA`, 344 / 74.5%).
+  - Medium-Route Leaders: Sealdah (`SDAH`, 348 Medium trains / 46.7%), Howrah (`HWH`, 327 / 46.8%), Dum Dum (`DDJ`, 272 / 58.7%).
+  - Reconciliation & Integrity: Verified that all 8,147 station row totals (`Total_Distinct_Trains`) match Task 2.4 frequencies with exactly 0 mismatches. Spot-checked CSMT, BZA, MSB, and SDAH cells against verified dataset.
+- **Validation**: `python -m pytest -v` executed, 51/51 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 5.1 to `COMPLETED`.
+- **Git Checkpoint**: Uncommitted per Section 24 (bundled into Checkpoint 4 upon completion of Level 5: Tasks 5.1–5.4).
+
+## Session 21: Task 5.2 — Cross-tabulation: Train Frequency Between Stations and Routes (Level 5)
+- **Date / Timestamp**: 2026-09-14T17:15:00+05:30
+- **Task ID**: 5.2 (Level 5)
+- **Status**: COMPLETED
+- **Implementation**: `src/level5/task_5_2_crosstab.py`
+- **Output Artifact**: `outputs/tables/task_5_2_route_crosstab.csv` (11 rows, 12 columns)
+- **Evidence Screenshot**: `screenshots/level5/task_5_2.png`
+- **Documentation**: `documentation/level5/task_5_2.txt`
+- **Test File**: `tests/test_level5.py`
+- **Analytical & Structural Findings**:
+  - `Route_Number` Evaluation: `Route_Number` is uniformly `1` across all 11,113 trains in Dataset1.csv (100.0% single-route cataloging).
+  - Train Series Prefix (Service Category) $\times$ Route Type Breakdown:
+    1. `1xxxx` (Long-Distance Mail/Express): 2,313 trains — 1,998 Long (86.38%), 235 Medium (10.16%), 80 Short (3.46%). Contributes 53.49% of all Long routes nationwide.
+    2. `2xxxx` (Superfast/Premium Express): 471 trains — 356 Long (75.58%), 84 Medium (17.83%), 31 Short (6.58%).
+    3. `3xxxx` (Kolkata Suburban EMU): 1,436 trains — 720 Short (50.14%), 716 Medium (49.86%), 0 Long (0.00%).
+    4. `4xxxx` (Chennai/Delhi Suburban EMU): 1,111 trains — 710 Short (63.91%), 401 Medium (36.09%), 0 Long (0.00%).
+    5. `5xxxx` (Conventional Passenger): 2,137 trains — 954 Long (44.64%), 894 Medium (41.83%), 289 Short (13.52%).
+    6. `6xxxx` (MEMU Mainline EMU): 775 trains — 485 Medium (62.58%), 171 Short (22.06%), 119 Long (15.35%).
+    7. `7xxxx` (DEMU Diesel EMU): 837 trains — 473 Medium (56.51%), 243 Short (29.03%), 121 Long (14.46%).
+    8. `8xxxx` (Suvidha/Premium Special): 11 trains — 10 Long (90.91%), 1 Medium (9.09%), 0 Short (0.00%).
+    9. `9xxxx` (Mumbai Suburban EMU): 1,750 trains — 1,578 Short (90.17%), 172 Medium (9.83%), 0 Long (0.00%). Contributes 40.88% of all Short routes nationwide.
+    10. `0xxxx` (Holiday/Special Express): 272 trains — 177 Long (65.07%), 57 Medium (20.96%), 38 Short (13.97%).
+  - Reconciliation & Quality: Row sums and column sums reconcile exactly to 11,113 unique trains (Short: 3,860, Medium: 3,518, Long: 3,735) with 0 discrepancies.
+- **Validation**: `python -m pytest -v` executed, 54/54 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 5.2 to `COMPLETED`.
+- **Git Checkpoint**: Uncommitted per Section 24 (bundled into Checkpoint 4 upon completion of Level 5: Tasks 5.1–5.4).
+
+## Session 22: Task 5.3 — Comparative Visualizations (Heatmap & Grouped Bar Chart) (Level 5)
+- **Date / Timestamp**: 2026-09-14T17:20:00+05:30
+- **Task ID**: 5.3 (Level 5)
+- **Status**: COMPLETED
+- **Implementation**: `src/level5/task_5_3_comparative_charts.py`
+- **Output Artifacts**:
+  - `outputs/charts/task_5_3_station_pivot_heatmap.png` (12x10 in, 150 DPI, 223.6 KB)
+  - `outputs/charts/task_5_3_route_crosstab_bar.png` (14x7.5 in, 150 DPI, 121.8 KB)
+- **Evidence Screenshot**: `screenshots/level5/task_5_3.png`
+- **Documentation**: `documentation/level5/task_5_3.txt`
+- **Test File**: `tests/test_level5.py`
+- **Visual & Analytical Insights**:
+  - Heatmap (Top 20 Railway Hubs by Route Type):
+    * Clearly reveals the tripartite functional specialization across India's top 20 hubs.
+    * Commuter-centric hubs (CSMT: 804 Short, TNA: 521 Short, MSB: 484 Short, KYN: 483 Short) show deep green saturation on the Short column.
+    * Regional express hubs (SDAH: 348 Medium, HWH: 327 Medium, DDJ: 272 Medium) dominate the Medium column.
+    * Inter-state arterial junctions (BZA: 316 Long, BRC: 307 Long, CNB: 295 Long) exhibit high blue saturation on the Long column.
+  - Grouped Bar Chart (Structural Train Frequency by Service Category):
+    * Compares Short, Medium, Long distribution across all 10 IR train series (`0xxxx` to `9xxxx`).
+    * Highlights `1xxxx` Mail/Express dominance in Long routes (1,998 trains / 53.49% of national total).
+    * Highlights `9xxxx` Mumbai Suburban dominance in Short routes (1,578 trains / 40.88% of national total).
+    * Illustrates `5xxxx` Conventional Passenger as a multi-tier bridge (954 Long, 894 Medium, 289 Short) and `6xxxx`/`7xxxx` MEMU/DEMU peaking in Medium routes (485 and 473 trains).
+- **Validation**: `python -m pytest -v` executed, 55/55 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 5.3 to `COMPLETED`.
+- **Git Checkpoint**: Uncommitted per Section 24 (bundled into Checkpoint 4 upon completion of Level 5: Tasks 5.1–5.4).
+
+## Session 23: Task 5.4 — Summarize Advanced Insights (Level 5)
+- **Date / Timestamp**: 2026-09-14T17:25:00+05:30
+- **Task ID**: 5.4 (Level 5)
+- **Status**: COMPLETED
+- **Implementation**: `src/level5/task_5_4_advanced_insights.py`
+- **Output Artifact**: `documentation/level5/task_5_4_advanced_insights.md` (8 grounded observations, 11.2 KB)
+- **Evidence Screenshot**: `screenshots/level5/task_5_4.png`
+- **Documentation**: `documentation/level5/task_5_4.txt`
+- **Test File**: `tests/test_level5.py`
+- **Key Summary Observations**:
+  1. High-Density Arterial Confluence: Vijayawada (BZA: 316 Long / 76.0%), Vadodara (BRC: 307 / 81.6%), Kanpur Central (CNB: 295 / 77.2%), Surat (ST: 272 / 86.1%), and Bhusaval (BSL: 253 / 84.9%) serve as primary long-distance express bottlenecks.
+  2. Mumbai Suburban Monopoly: CST-Mumbai (CSMT: 804 Short / 78.3%), Thane (TNA: 521 / 65.5%); 9xxxx series accounts for 1,578 Short routes (40.88% of national Short-distance capacity).
+  3. Kolkata Regional Transit Balance: Sealdah (SDAH: 348 Medium / 46.7%) and Howrah (HWH: 327 / 46.8%) lead national Medium routes; 3xxxx series exhibits a 50/50 split (50.14% Short / 49.86% Medium).
+  4. Chennai Terminal Asymmetry: Chennai Beach (MSB: 484 Short, 0 Long) operates as a pure commuter terminal; Tambaram (TBM: 274 Short, 67 Long) operates as a hybrid outer gateway.
+  5. Long-Distance Fleet Dominance: 1xxxx Mail/Express (1,998 Long) and 2xxxx Superfast (356 Long) comprise 2,354 Long routes (63.02% of all Long-distance trains nationwide).
+  6. Universal Passenger Backbone: 5xxxx Conventional Passenger comprises 2,137 trains spanning Long (954), Medium (894), and Short (289).
+  7. Regional Intermediate Mobility: 6xxxx MEMU (485 Medium) and 7xxxx DEMU (473 Medium) supply 27.23% of all Medium-distance train operations.
+  8. Single-Route Dataset Architecture: Route_Number is uniformly 1 across 100.0% of all 11,113 trains.
+- **Validation**: `python -m pytest -v` executed, 57/57 tests PASSED (100%).
+- **Task Tracker**: Updated `documentation/task_tracker.csv` row 5.4 to `COMPLETED`.
+- **Level 5 Status**: Level 5 (Tasks 5.1–5.4) is 100% COMPLETE.
+- **Phase Checkpoint 4**: Reached phase boundary for Level 5 bundle. Ready for Git commit (`Complete advanced analysis and visualization`) and push.
+
+
+
+
 
 
 

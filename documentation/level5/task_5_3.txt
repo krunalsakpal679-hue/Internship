@@ -1,0 +1,73 @@
+================================================================================
+TASK 5.3 DOCUMENTATION: COMPARATIVE CHARTS (PIVOT HEATMAP & CROSSTAB GROUPED BAR)
+================================================================================
+Date / Timestamp: 2026-09-14T17:20:00+05:30
+Task ID: 5.3
+Level: 5 (Advanced Analytical Insights)
+Phase: Phase 4 Advanced Analysis & Cross-tabulation (Checkpoint 4)
+
+1. REQUIREMENT & ANALYTICAL PURPOSE:
+--------------------------------------------------------------------------------
+- Objective: Create comparative visualizations for the Task 5.1 pivot table and Task 5.2 cross-tab.
+  1. Heatmap: Top 20 high-traffic railway stations by Route Type composition using Seaborn heatmap.
+  2. Grouped Bar Chart: Structural train frequency distribution across 10 Indian Railways train service series.
+- Ensure all charts include legible titles, labeled axes with units, legends, and non-overlapping annotations.
+
+2. IMPLEMENTATION:
+--------------------------------------------------------------------------------
+- Script: src/level5/task_5_3_comparative_charts.py
+- Inputs:
+  * outputs/tables/task_5_1_station_pivot.csv (8,147 stations)
+  * outputs/tables/task_5_2_route_crosstab.csv (11 service categories)
+- Methodology:
+  * Heatmap: Filtered top 20 stations by total distinct train count. Annotated each cell with exact
+    train count in YlGnBu color scale. Set formatted row labels with station code, canonical name,
+    and total train volume.
+  * Grouped Bar Chart: Plotted 10 service categories (0xxxx to 9xxxx) with 3 clustered bars per category
+    representing Short (<=80m, green), Medium (81-240m, orange), and Long (>240m, blue). Added exact
+    count annotations above bars.
+  * Saved visual artifacts:
+    - outputs/charts/task_5_3_station_pivot_heatmap.png
+    - outputs/charts/task_5_3_route_crosstab_bar.png
+  * Evidence: screenshots/level5/task_5_3.png, documentation/level5/task_5_3.txt
+
+3. OUTPUT:
+--------------------------------------------------------------------------------
+Top 5 Stations in Heatmap:
+Station_Code Station_Name  Short  Medium  Long  Total_Distinct_Trains
+        CSMT   CST-MUMBAI    804     138    85                   1027
+         KYN    KALYAN JN    483     130   215                    828
+         TNA        THANE    521     139   136                    796
+        SDAH      SEALDAH    339     348    58                    745
+         MSB CHENNAI BEAC    484     254     0                    738
+
+Service Series Distribution in Grouped Bar Chart:
+Prefix_Digit                     Service_Category  Short  Medium  Long  Total_Trains
+           0    0xxxx (Holiday / Special Express)     38      57   177           272
+           1 1xxxx (Long-Distance Mail / Express)     80     235  1998          2313
+           2  2xxxx (Superfast / Premium Express)     31      84   356           471
+           3         3xxxx (Kolkata Suburban EMU)    720     716     0          1436
+           4 4xxxx (Chennai / Delhi Suburban EMU)    710     401     0          1111
+           5       5xxxx (Conventional Passenger)    289     894   954          2137
+           6            6xxxx (MEMU Mainline EMU)    171     485   119           775
+           7              7xxxx (DEMU Diesel EMU)    243     473   121           837
+           8    8xxxx (Suvidha / Premium Special)      0       1    10            11
+           9          9xxxx (Mumbai Suburban EMU)   1578     172     0          1750
+
+4. INTERPRETATION & KEY FINDINGS:
+--------------------------------------------------------------------------------
+- [DATA FACT] Visual Station Specialization:
+  The heatmap highlights stark operational polarization among India's top 20 hubs:
+  * Mumbai commuter stations (CSMT: 804 Short, TNA: 521 Short, KYN: 483 Short) show extreme green
+    saturation in the Short column.
+  * Kolkata twin terminals (SDAH: 348 Medium, HWH: 327 Medium) show peak concentration in the Medium column.
+  * Inter-state arterial junctions (BZA: 316 Long, BRC: 307 Long, CNB: 295 Long) show intense blue saturation
+    in the Long column.
+- [DATA FACT] Visual Fleet Composition:
+  The grouped bar chart visually confirms the operational architecture of Indian Railways:
+  * 1xxxx (Mail/Express) dominates the Long-route tier with 1,998 trains (53.49% of national total).
+  * 9xxxx (Mumbai EMU) dominates the Short-route tier with 1,578 trains (40.88% of national total).
+  * 5xxxx (Conventional Passenger) forms a broad multi-tier operational bridge (954 Long, 894 Medium, 289 Short).
+  * 6xxxx (MEMU) and 7xxxx (DEMU) peak in the Medium-route tier (485 and 473 trains respectively).
+- [QA VERIFICATION] Both PNG files verified with non-zero byte size, zero label clipping, and 100% data fidelity.
+================================================================================

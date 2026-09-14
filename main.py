@@ -89,6 +89,8 @@ def main():
 Execution Modes:
   python main.py             Launch Interactive Route Enquiry CLI application
   python main.py --app       Launch Interactive Route Enquiry CLI application
+  python main.py --web       Launch Interactive Web Application (Browser UI at http://127.0.0.1:5000)
+  python main.py --gui       Launch Interactive Desktop GUI application
   python main.py --pipeline  Run complete end-to-end analytical pipeline (Levels 0–6)
   python main.py --test      Run automated pytest test suite (83 test cases)
   python main.py --audit     Run 9-part evidence chain audit across all tasks
@@ -96,6 +98,7 @@ Execution Modes:
     )
     parser.add_argument("--pipeline", action="store_true", help="Execute complete analytical pipeline (Levels 0–6)")
     parser.add_argument("--app", action="store_true", help="Launch interactive route enquiry CLI application")
+    parser.add_argument("--web", action="store_true", help="Launch interactive Web application (Browser UI)")
     parser.add_argument("--gui", action="store_true", help="Launch interactive route enquiry Desktop GUI application")
     parser.add_argument("--test", action="store_true", help="Execute automated test suite using pytest")
     parser.add_argument("--audit", action="store_true", help="Execute 9-part evidence chain audit")
@@ -104,6 +107,11 @@ Execution Modes:
 
     if args.pipeline:
         run_full_pipeline()
+    elif args.web:
+        print_banner()
+        print("Launching Web Application Server...\n")
+        from app.web_app import main as web_main
+        web_main()
     elif args.gui:
         print_banner()
         print("Launching Desktop Graphical User Interface (GUI)...\n")

@@ -552,7 +552,30 @@
 - **Validation**: `python -m pytest -v` executed, 67/67 tests PASSED (100%).
 - **Task Tracker**: Updated `documentation/task_tracker.csv` row 6.1 to `COMPLETED`.
 - **Level 6 Status**: Level 6 (Task 6.1) is 100% COMPLETE.
-- **Phase Checkpoint 5**: Reached phase boundary for Level 6. Ready for Git commit (`Build interactive CLI route enquiry application`) and push.
+- **Phase Checkpoint 5**: Reached phase boundary for Level 6. Committed (`a93e6db`, `59a9197`) and pushed to GitHub `main`.
+
+## Session 25: Checkpoint 6 — Full Testing Suite & Verification
+- **Date / Timestamp**: 2026-09-14T17:55:00+05:30
+- **Checkpoint ID**: Checkpoint 6
+- **Status**: COMPLETED
+- **Implementation**:
+  - `tests/test_dataset.py` (Raw & verified dataset integrity, SHA-256 immutability, zero-null invariant, Nanogaon protection)
+  - `tests/test_processing.py` (Time parsing, midnight rollover duration calculation, route classification terciles, station ordering monotonicity)
+  - `tests/test_analysis.py` (Station frequency integrity, pivot & cross-tab reconciliation, chart artifacts)
+  - `tests/test_enquiry_system.py` (Direct enquiry queries, disconnected pairs, invalid stations, same-station rejection, normalization)
+  - `src/testing/generate_test_report.py` (Automated pytest runner, report generator, visual evidence generator)
+- **Output Artifacts**:
+  - `outputs/reports/test_results.txt` (Full unedited pytest output, 83 passed)
+  - `documentation/testing_summary.md` (Modular breakdown, core invariants, mutation verification)
+  - `screenshots/testing/checkpoint_6.png` (Visual evidence screenshot, 150 DPI)
+  - `screenshots/level6/checkpoint_6.png` (Mirror evidence screenshot)
+- **Test Suite Scale**:
+  - Total Test Files: 11 modules (`test_foundation.py`, `test_audit.py`, `test_dataset.py`, `test_processing.py`, `test_analysis.py`, `test_enquiry_system.py`, `test_level1.py`, `test_level2.py`, `test_level3.py`, `test_level4.py`, `test_level5.py`, `test_train_enquiry.py`)
+  - Total Tests Executed: **83 passed / 83 total (100% PASS)** in 39.24s.
+  - Zero Failures, Zero Warnings, Zero Skipped.
+- **Negative / Mutation Testing**:
+  - Mutation injected into `classify_route` logic in `test_processing.py`, confirmed test failure with descriptive traceback, restored logic, confirmed clean 83/83 pass.
+- **Git Checkpoint**: Committed (`86aa215`) with message `Complete comprehensive pytest validation suite` and pushed to GitHub `main`. Updated `documentation/git_checkpoint_tracker.csv`.
 
 
 
